@@ -23,7 +23,7 @@ from typing import Optional
 from fastmcp import FastMCP
 from fastmcp.server.auth import OAuthProxy
 from fastmcp.server.auth.providers.jwt import JWTVerifier
-from starlette.responses import JSONResponse, FileResponse
+from starlette.responses import JSONResponse, FileResponse, HTMLResponse
 
 from http_parser import CianHttpParser
 from district_utils import get_okrug_id, get_district_id
@@ -95,6 +95,27 @@ mcp = FastMCP("CIAN Parser", auth=auth)
 
 _parser = None
 
+
+@mcp.custom_route("/", methods=["GET"])
+async def index(request):
+    return HTMLResponse(
+        """
+        <!doctype html>
+        <html lang="en">
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Cian MCP</title>
+            <link rel="icon" href="/favicon.ico">
+        </head>
+        <body>
+            <h1>Cian MCP Server</h1>
+            <p>MCP endpoint: <code>/mcp</code></p>
+            <p>Health check: <code>/health</code></p>
+        </body>
+        </html>
+        """
+    )
 
 @mcp.custom_route("/health", methods=["GET"])
 async def health_check(request):
