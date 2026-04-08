@@ -23,7 +23,7 @@ from typing import Optional
 from fastmcp import FastMCP
 from fastmcp.server.auth import OAuthProxy
 from fastmcp.server.auth.providers.jwt import JWTVerifier
-from starlette.responses import JSONResponse
+from starlette.responses import JSONResponse, FileResponse
 
 from http_parser import CianHttpParser
 from district_utils import get_okrug_id, get_district_id
@@ -100,6 +100,9 @@ _parser = None
 async def health_check(request):
     return JSONResponse({"status": "ok"})
 
+@mcp.custom_route("/favicon.ico", methods=["GET"])
+async def favicon(request):
+    return FileResponse("favicon.ico")
 
 def get_parser():
     global _parser
