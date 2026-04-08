@@ -21,7 +21,8 @@ import time
 import hashlib
 from typing import Optional
 from fastmcp import FastMCP
-from fastmcp.server.auth.providers.jwt import StaticTokenVerifier
+from fastmcp.server.auth import OAuthProxy
+from fastmcp.server.auth.providers.jwt import JWTVerifier
 from starlette.responses import JSONResponse
 
 from http_parser import CianHttpParser
@@ -62,21 +63,35 @@ class SearchCache:
 
 cache = SearchCache()
 
-mcp_auth_token = os.environ.get("MCP_AUTH_TOKEN")
-if not mcp_auth_token:
-    raise RuntimeError("MCP_AUTH_TOKEN environment variable is required")
+auth0_domain = os.environ["AUTH0_DOMAIN"]
+auth0_client_id = os.environ["AUTH0_CLIENT_ID"]
+auth0_client_secret = os.environ["AUTH0_CLIENT_SECRET"]
+auth0_audience = os.environ["AUTH0_AUDIENCE"]
+base_url = os.environ["BASE_URL"].rstrip("/")
+jwt_signing_key = os.environ["JWT_SIGNING_KEY"]
 
-auth_verifier = StaticTokenVerifier(
-    tokens={
-        mcp_auth_token: {
-            "client_id": "personal-client",
-            "scopes": ["mcp:access"],
-        }
-    },
-    required_scopes=["mcp:access"],
+token_verifier = JWTVerifier(
+    jwks_uri=f"https://{auth0_domain}/.well-known/jwks.json",
+    issuer=f"https://{auth0_domain}/",
+    audience=auth0_audience,
 )
 
-mcp = FastMCP("CIAN Parser", auth=auth_verifier)
+auth = OAuthProxy(
+    upstream_authorization_endpoint=f"https://{auth0_domain}/authorize",
+    upstream_token_endpoint=f"https://{auth0_domain}/oauth/token",
+    upstream_client_id=auth0_client_id,
+    upstream_client_secret=auth0_client_secret,
+    token_verifier=token_verifier,
+    base_url=base_url,
+    jwt_signing_key=jwt_signing_key,
+    extra_authorize_params={"audience": auth0_audience},
+    extra_token_params={"audience": auth0_audience},
+    allowed_client_redirect_uris=[
+        "https://claude.ai/api/mcp/auth_callback",
+    ],
+)
+
+mcp = FastMCP("CIAN Parser", auth=auth)
 
 _parser = None
 
