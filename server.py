@@ -21,6 +21,7 @@ import time
 import hashlib
 from typing import Optional
 from fastmcp import FastMCP
+from fastmcp.server.auth.providers.jwt import StaticTokenVerifier
 from starlette.responses import JSONResponse
 
 from http_parser import CianHttpParser
@@ -60,7 +61,22 @@ class SearchCache:
         self.cache[key] = (time.time(), data)
 
 cache = SearchCache()
-mcp = FastMCP("CIAN Parser")
+
+mcp_auth_token = os.environ.get("MCP_AUTH_TOKEN")
+if not mcp_auth_token:
+    raise RuntimeError("MCP_AUTH_TOKEN environment variable is required")
+
+auth_verifier = StaticTokenVerifier(
+    tokens={
+        mcp_auth_token: {
+            "client_id": "personal-client",
+            "scopes": ["mcp:access"],
+        }
+    },
+    required_scopes=["mcp:access"],
+)
+
+mcp = FastMCP("CIAN Parser", auth=auth_verifier)
 
 _parser = None
 
