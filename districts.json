@@ -1,0 +1,1634 @@
+[
+  {
+    "id": 4,
+    "name": "ЦАО",
+    "type": "Okrug",
+    "childs": [
+      {
+        "id": 13,
+        "name": "Арбат",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 14,
+        "name": "Басманный",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 15,
+        "name": "Замоскворечье",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 16,
+        "name": "Красносельский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 17,
+        "name": "Мещанский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 18,
+        "name": "Пресненский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 19,
+        "name": "Таганский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 20,
+        "name": "Тверской",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 21,
+        "name": "Хамовники",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 22,
+        "name": "Якиманка",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      }
+    ],
+    "direction": {
+      "code": "center",
+      "name": null
+    }
+  },
+  {
+    "id": 5,
+    "name": "САО",
+    "type": "Okrug",
+    "childs": [
+      {
+        "id": 23,
+        "name": "Аэропорт",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 24,
+        "name": "Беговой",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 25,
+        "name": "Бескудниковский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 26,
+        "name": "Войковский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 27,
+        "name": "Восточное Дегунино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 28,
+        "name": "Головинский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 29,
+        "name": "Дмитровский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 30,
+        "name": "Западное Дегунино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 31,
+        "name": "Коптево",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 32,
+        "name": "Левобережный",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 33,
+        "name": "Молжаниновский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 34,
+        "name": "Савеловский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 35,
+        "name": "Сокол",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 36,
+        "name": "Тимирязевский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 37,
+        "name": "Ховрино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 38,
+        "name": "Хорошевский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      }
+    ],
+    "direction": {
+      "code": "n",
+      "name": null
+    }
+  },
+  {
+    "id": 6,
+    "name": "СВАО",
+    "type": "Okrug",
+    "childs": [
+      {
+        "id": 39,
+        "name": "Алексеевский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 40,
+        "name": "Алтуфьевский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 41,
+        "name": "Бабушкинский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 42,
+        "name": "Бибирево",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 43,
+        "name": "Бутырский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 44,
+        "name": "Лианозово",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 45,
+        "name": "Лосиноостровский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 46,
+        "name": "Марфино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 47,
+        "name": "Марьина роща",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 48,
+        "name": "Останкинский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 49,
+        "name": "Отрадное",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 50,
+        "name": "Ростокино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 51,
+        "name": "Свиблово",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 53,
+        "name": "Северное Медведково",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 52,
+        "name": "Северный",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 54,
+        "name": "Южное Медведково",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 55,
+        "name": "Ярославский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      }
+    ],
+    "direction": {
+      "code": "ne",
+      "name": null
+    }
+  },
+  {
+    "id": 7,
+    "name": "ВАО",
+    "type": "Okrug",
+    "childs": [
+      {
+        "id": 56,
+        "name": "Богородское",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 57,
+        "name": "Вешняки",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 59,
+        "name": "Восточное Измайлово",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 58,
+        "name": "Восточный",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 60,
+        "name": "Гольяново",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 61,
+        "name": "Ивановское",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 62,
+        "name": "Измайлово",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 63,
+        "name": "Косино-Ухтомский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 64,
+        "name": "Метрогородок",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 65,
+        "name": "Новогиреево",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 66,
+        "name": "Новокосино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 67,
+        "name": "Перово",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 68,
+        "name": "Преображенское",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 69,
+        "name": "Северное Измайлово",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 70,
+        "name": "Соколиная гора",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 71,
+        "name": "Сокольники",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      }
+    ],
+    "direction": {
+      "code": "e",
+      "name": null
+    }
+  },
+  {
+    "id": 8,
+    "name": "ЮВАО",
+    "type": "Okrug",
+    "childs": [
+      {
+        "id": 72,
+        "name": "Выхино-Жулебино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 73,
+        "name": "Капотня",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 74,
+        "name": "Кузьминки",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 75,
+        "name": "Лефортово",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 76,
+        "name": "Люблино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 77,
+        "name": "Марьино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 78,
+        "name": "Некрасовка",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 79,
+        "name": "Нижегородский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 80,
+        "name": "Печатники",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 81,
+        "name": "Рязанский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 82,
+        "name": "Текстильщики",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 83,
+        "name": "Южнопортовый",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      }
+    ],
+    "direction": {
+      "code": "se",
+      "name": null
+    }
+  },
+  {
+    "id": 9,
+    "name": "ЮАО",
+    "type": "Okrug",
+    "childs": [
+      {
+        "id": 84,
+        "name": "Бирюлево Восточное",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 85,
+        "name": "Бирюлево Западное",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 86,
+        "name": "Братеево",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 87,
+        "name": "Даниловский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 88,
+        "name": "Донской",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 89,
+        "name": "Зябликово",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 90,
+        "name": "Москворечье-Сабурово",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 91,
+        "name": "Нагатино-Садовники",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 92,
+        "name": "Нагатинский затон",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 93,
+        "name": "Нагорный",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 94,
+        "name": "Орехово-Борисово Северное",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 95,
+        "name": "Орехово-Борисово Южное",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 96,
+        "name": "Царицыно",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 97,
+        "name": "Чертаново Северное",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 98,
+        "name": "Чертаново Центральное",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 99,
+        "name": "Чертаново Южное",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      }
+    ],
+    "direction": {
+      "code": "s",
+      "name": null
+    }
+  },
+  {
+    "id": 10,
+    "name": "ЮЗАО",
+    "type": "Okrug",
+    "childs": [
+      {
+        "id": 100,
+        "name": "Академический",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 101,
+        "name": "Гагаринский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 102,
+        "name": "Зюзино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 103,
+        "name": "Коньково",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 104,
+        "name": "Котловка",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 105,
+        "name": "Ломоносовский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 106,
+        "name": "Обручевский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 107,
+        "name": "Северное Бутово",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 108,
+        "name": "Теплый Стан",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 109,
+        "name": "Черемушки",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 110,
+        "name": "Южное Бутово",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 111,
+        "name": "Ясенево",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      }
+    ],
+    "direction": {
+      "code": "sw",
+      "name": null
+    }
+  },
+  {
+    "id": 11,
+    "name": "ЗАО",
+    "type": "Okrug",
+    "childs": [
+      {
+        "id": 112,
+        "name": "Внуково",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 113,
+        "name": "Дорогомилово",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 114,
+        "name": "Крылатское",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 115,
+        "name": "Кунцево",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 116,
+        "name": "Можайский",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 117,
+        "name": "Ново-Переделкино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 118,
+        "name": "Очаково-Матвеевское",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 119,
+        "name": "Проспект Вернадского",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 120,
+        "name": "Раменки",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 121,
+        "name": "Солнцево",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 122,
+        "name": "Тропарево-Никулино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 123,
+        "name": "Филевский парк",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 124,
+        "name": "Фили-Давыдково",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 349,
+        "name": "Конезавод",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 348,
+        "name": "Рублёво-Архангельское",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 350,
+        "name": "Сколково",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      }
+    ],
+    "direction": {
+      "code": "w",
+      "name": null
+    }
+  },
+  {
+    "id": 1,
+    "name": "СЗАО",
+    "type": "Okrug",
+    "childs": [
+      {
+        "id": 125,
+        "name": "Куркино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 126,
+        "name": "Митино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 127,
+        "name": "Покровское-Стрешнево",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 128,
+        "name": "Северное Тушино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 129,
+        "name": "Строгино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 130,
+        "name": "Хорошево-Мневники",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 131,
+        "name": "Щукино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 132,
+        "name": "Южное Тушино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      }
+    ],
+    "direction": {
+      "code": "nw",
+      "name": null
+    }
+  },
+  {
+    "id": 151,
+    "name": "ЗелАО",
+    "type": "Okrug",
+    "childs": [
+      {
+        "id": 154,
+        "name": "Крюково",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 355,
+        "name": "Матушкино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 356,
+        "name": "Савёлки",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 357,
+        "name": "Силино",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 358,
+        "name": "Старое Крюково",
+        "type": "Raion",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      }
+    ],
+    "direction": {
+      "code": null,
+      "name": "Зеленоград"
+    }
+  },
+  {
+    "id": 325,
+    "name": "НАО (Новомосковский)",
+    "type": "Okrug",
+    "childs": [
+      {
+        "id": 328,
+        "name": "Внуковское",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 327,
+        "name": "Воскресенское",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 329,
+        "name": "Десёновское",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 330,
+        "name": "Кокошкино",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 331,
+        "name": "Марушкинское",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 332,
+        "name": "Московский",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 333,
+        "name": "Мосрентген",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 334,
+        "name": "Рязановское",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 335,
+        "name": "Сосенское",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 336,
+        "name": "Филимонковское",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 337,
+        "name": "Щербинка",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      }
+    ],
+    "direction": {
+      "code": null,
+      "name": "Новая Москва"
+    }
+  },
+  {
+    "id": 4334,
+    "name": "Новая Москва",
+    "type": "Raion",
+    "childs": [],
+    "direction": {
+      "code": null,
+      "name": null
+    }
+  },
+  {
+    "id": 326,
+    "name": "ТАО (Троицкий)",
+    "type": "Okrug",
+    "childs": [
+      {
+        "id": 338,
+        "name": "Вороновское",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 339,
+        "name": "Киевский",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 340,
+        "name": "Клёновское",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 341,
+        "name": "Краснопахорское",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 342,
+        "name": "Михайлово-Ярцевское",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 343,
+        "name": "Новофёдоровское",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 344,
+        "name": "Первомайское",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 345,
+        "name": "Роговское",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 346,
+        "name": "Троицк",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      },
+      {
+        "id": 347,
+        "name": "Щаповское",
+        "type": "Poselenie",
+        "childs": [],
+        "direction": {
+          "code": null,
+          "name": null
+        }
+      }
+    ],
+    "direction": {
+      "code": null,
+      "name": "Новая Москва"
+    }
+  }
+]

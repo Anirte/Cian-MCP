@@ -1,0 +1,7 @@
+.git
+.venv
+__pycache__
+*.pyc
+*.log
+current_url.txt
+server_debug.log
