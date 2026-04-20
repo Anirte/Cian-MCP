@@ -6,6 +6,7 @@
 import json
 import time
 import datetime
+import re
 import cloudscraper
 # We still use our helper for district IDs
 from district_utils import get_okrug_id, get_district_id
@@ -100,6 +101,101 @@ class CianHttpParser:
 
         return all_flats
 
+    def get_flat_by_url(self, url: str):
+        """
+        Loads one apartment directly from a CIAN sale URL.
+        """
+        offer_id = self._extract_offer_id_from_url(url)
+        page_url = f"https://www.cian.ru/sale/flat/{offer_id}/"
+
+        try:
+            page_response = self.scraper.get(page_url, timeout=10)
+            if page_response.status_code == 200:
+                flat = self._extract_offer_json_from_page(page_response.text, offer_id)
+                if flat:
+                    parsed_flat = self._parse_offer_json(flat)
+                    if parsed_flat:
+                        parsed_flat["url"] = page_url
+                        return parsed_flat
+        except Exception as e:
+            logging.info(f"   Page warmup failed for offer {offer_id}: {e}")
+
+        headers = {
+            "Accept": "application/json",
+            "Referer": page_url,
+            "Host": "api.cian.ru"
+        }
+
+        id_filters = [
+            ("offer_id", {"type": "terms", "value": [int(offer_id)]}),
+            ("cian_id", {"type": "terms", "value": [int(offer_id)]}),
+            ("cianId", {"type": "terms", "value": [int(offer_id)]}),
+            ("offerId", {"type": "terms", "value": [int(offer_id)]}),
+            ("id", {"type": "terms", "value": [int(offer_id)]}),
+        ]
+
+        for filter_name, filter_value in id_filters:
+            payload = {
+                "jsonQuery": {
+                    "_type": "flatsale",
+                    "region": {"type": "terms", "value": [1]},
+                    "engine_version": {"type": "term", "value": 2},
+                    "limit": {"type": "term", "value": 1},
+                    filter_name: filter_value
+                }
+            }
+
+            try:
+                response = self.scraper.post(self.api_url, json=payload, headers=headers, timeout=20)
+                if response.status_code != 200:
+                    logging.info(f"   Direct load for offer {offer_id} with {filter_name}: status {response.status_code}")
+                    continue
+
+                data = response.json()
+                offers = data.get('data', {}).get('offersSerialized', [])
+                for offer_data in offers:
+                    flat = self._parse_offer_json(offer_data)
+                    if flat and str(flat.get("offer_id")) == offer_id:
+                        flat["url"] = page_url
+                        return flat
+            except Exception as e:
+                logging.info(f"   Direct load failed for offer {offer_id} with {filter_name}: {e}")
+
+        return None
+
+    def _extract_offer_id_from_url(self, url: str) -> str:
+        match = re.search(r"cian\.ru/sale/flat/(\d+)", str(url))
+        if not match:
+            raise ValueError("Please provide a direct CIAN apartment sale URL, for example https://www.cian.ru/sale/flat/318640805/.")
+        return match.group(1)
+
+    def _extract_offer_json_from_page(self, page_text: str, offer_id: str):
+        decoder = json.JSONDecoder()
+        target_indices = []
+
+        for target in [f'"cianId":{offer_id}', f'"id":{offer_id}']:
+            target_indices.extend(match.start() for match in re.finditer(re.escape(target), page_text))
+
+        for target_index in reversed(target_indices):
+            start_window = max(0, target_index - 150000)
+            segment_before_target = page_text[start_window:target_index]
+            object_starts = [match.start() + start_window for match in re.finditer(r"\{", segment_before_target)]
+
+            for start in reversed(object_starts):
+                try:
+                    offer, _ = decoder.raw_decode(page_text[start:])
+                except json.JSONDecodeError:
+                    continue
+
+                if not isinstance(offer, dict):
+                    continue
+
+                current_id = str(offer.get("cianId") or offer.get("id") or offer.get("offerId"))
+                if current_id == offer_id and offer.get("bargainTerms"):
+                    return offer
+
+        return None
+
     def get_average_rent(self, rooms: int, district_id: int, total_area: float, walk_min=None) -> dict:
         """
         Ищет похожие квартиры в аренду в том же районе с учетом площади и удаленности от метро.
@@ -193,7 +289,7 @@ class CianHttpParser:
     def _parse_offer_json(self, offer):
         try:
             bargain = offer.get('bargainTerms', {})
-            price = int(bargain.get('priceRur') or bargain.get('price') or 0)
+            price = int(bargain.get('priceRur') or bargain.get('price') or bargain.get('prices', {}).get('rur') or 0)
             total = float(offer.get('totalArea') or 0)
             if price == 0 or total == 0: return None
 
@@ -209,7 +305,7 @@ class CianHttpParser:
                 "euro": "евроремонт",
                 "design": "дизайнерский ремонт"
             }
-            decor_raw = offer.get('decoration', 'н/д')
+            decor_raw = offer.get('decoration') or offer.get('repairType') or 'н/д'
             repair_type = decor_map.get(decor_raw, decor_raw) # если кода нет в словаре, оставит как есть
 
             # Наличие мебели (в API это true/false/null)
@@ -237,7 +333,7 @@ class CianHttpParser:
 
             # --- Парсинг информации о планировке ---
             floor_plan_url = None
-            photos = offer.get('photos', [])
+            photos = offer.get('photos') or []
             for photo in photos:
                 if photo.get('isLayout'): # <-- Ищем isLayout вместо isPlan
                     floor_plan_url = photo.get('fullUrl')
@@ -260,6 +356,9 @@ class CianHttpParser:
             # Ищем Район/Поселение (нужно для API аренды)
             target_dist = next((d for d in districts_list if d.get('type') in ['raion', 'poselenie']), {})
             if not target_dist and districts_list: target_dist = districts_list[-1]
+            if not target_dist:
+                address_districts = geo_data.get('address', [])
+                target_dist = next((d for d in address_districts if d.get('type') in ['raion', 'poselenie']), {})
 
             district_id = target_dist.get('id')
             district_name = target_dist.get('name', 'н/д')
@@ -270,12 +369,18 @@ class CianHttpParser:
                 if a.get('type') in ['location', 'street', 'house']
             ]
             full_address = ", ".join(address_list)
+            address_items = geo_data.get('address', [])
+            is_moscow = any(
+                item.get('type') == 'location' and (item.get('id') == 1 or item.get('name') == 'Москва')
+                for item in address_items
+            )
 
             #  --- МКАД И шоссе ---
             highways = geo_data.get('highways', [])
             highway_info = "Не указано"
-            min_dist_to_mkad = 999.0
-            if highways:
+            mkad_distance = float(geo_data.get('distanceFromMkad') or 0) if is_moscow else None
+            min_dist_to_mkad = mkad_distance
+            if is_moscow and highways:
                 best_highway = min(highways, key=lambda x: float(x.get('distance', 999)))
                 highway_info = f"{best_highway['name']} шоссе, {best_highway['distance']} км от МКАД"
                 min_dist_to_mkad = float(best_highway['distance'])
@@ -306,7 +411,7 @@ class CianHttpParser:
                 "material": offer.get('building', {}).get('materialType'),
                 "build_year": offer.get('building', {}).get('buildYear') or "н/д",
                 "metro": metro_data["display"],
-                "mkad_distance": float(geo_data.get('distanceFromMkad') or 0),
+                "mkad_distance": mkad_distance,
                 "mkad_info": highway_info,
                 "mkad_distance_real": min_dist_to_mkad,
                 "address": full_address,
@@ -377,11 +482,11 @@ class CianHttpParser:
         # Берем ближайшую станцию
         m = metros[0]
         name = m.get('name', 'н/д')
-        time = m.get('time', 0)
+        time = m.get('time') or m.get('travelTime') or 0
 
-        t_type = m.get('transportType')
+        t_type = m.get('transportType') or m.get('travelType')
 
-        if t_type == "walk":
+        if t_type in ["walk", "byFoot"]:
             type_str = "пешком"
             walk_min = time
         else:

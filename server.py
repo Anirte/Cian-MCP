@@ -203,7 +203,12 @@ def search_flats(
 
             # Применяем фильтры ко всему списку
             if not include_outside_mkad:
-                flats = [f for f in flats if f.get("mkad_distance_real", 999) <= 0.5 or f.get("mkad_distance_real") == 999]
+                flats = [
+                    f for f in flats
+                    if f.get("mkad_distance_real") is None
+                    or f.get("mkad_distance_real", 999) <= 0.5
+                    or f.get("mkad_distance_real") == 999
+                ]
             if not include_shares:
                 flats = [f for f in flats if not f.get("is_share", False)]
             if exclude_apartments:
@@ -230,8 +235,8 @@ def search_flats(
             ru_material = {"monolith": "монолит", "brick": "кирпич", "panel": "панель", "block": "блок"}.get(
                 str(flat.get('material', '')).lower(), 'неизвестно'
             )
-            dist = flat.get("mkad_distance_real", 999)
-            mkad_str = f", {dist} км от МКАД" if dist < 500 else ""
+            dist = flat.get("mkad_distance_real")
+            mkad_str = f", {dist} км от МКАД" if isinstance(dist, (int, float)) and dist < 500 else ""
 
             summary = (
                 f"Метраж: {flat.get('total_meters', 0)} м², жилая {flat.get('living_meters', 0)} м², кухня {flat.get('kitchen_meters', 0)} м²\n"
@@ -281,6 +286,77 @@ def search_flats(
 
     except Exception as e:
         logger.error(f"Search error: {e}")
+        return json.dumps({"status": "error", "message": str(e)}, ensure_ascii=False)
+
+@mcp.tool
+def load_flat_by_url(url: str) -> str:
+    """
+    Load one apartment directly by a CIAN sale URL and save it to cache.
+    Use this tool when the user provides a direct link like https://www.cian.ru/sale/flat/318640805/.
+    Do not use search_flats for direct CIAN apartment links.
+    """
+    try:
+        parser = get_parser()
+        flat = parser.get_flat_by_url(url)
+
+        if not flat:
+            return json.dumps({
+                "status": "error",
+                "message": "Apartment was not found by this direct CIAN URL."
+            }, ensure_ascii=False)
+
+        cache_key = cache.get_key({
+            "source": "direct_url",
+            "offer_id": str(flat.get("offer_id"))
+        })
+        cache.set(cache_key, [flat])
+
+        ru_material = {"monolith": "монолит", "brick": "кирпич", "panel": "панель", "block": "блок"}.get(
+            str(flat.get('material', '')).lower(), 'неизвестно'
+        )
+        dist = flat.get("mkad_distance_real")
+        mkad_str = f", {dist} км от МКАД" if isinstance(dist, (int, float)) and dist < 500 else ""
+
+        summary = (
+            f"Метраж: {flat.get('total_meters', 0)} м², жилая {flat.get('living_meters', 0)} м², кухня {flat.get('kitchen_meters', 0)} м²\n"
+            f"Здание: этаж {flat.get('floor', 0)}/{flat.get('floors_count', 0)}, тип здания {ru_material}\n"
+            f"Ремонт: {flat.get('repair', 'н/д')}, Мебель: {flat.get('furniture', 'н/д')}\n"
+            f"Удобства: Лифт - {flat.get('elevator_info', 'н/д')}, Балкон/лоджия - {flat.get('balcony_info', 'н/д')}, "
+            f"Планировка: {'Есть' if flat.get('floor_plan_url') else 'Нет'}\n"
+            f"Расположение: {flat.get('metro', 'н/д')}{mkad_str}"
+        )
+
+        return json.dumps({
+            "status": "ok",
+            "message": "Apartment loaded and saved to cache.",
+            "result": {
+                "offer_id": str(flat.get("offer_id", "")),
+                "district_id": flat.get("district_id"),
+                "rooms_count": flat.get("rooms_count"),
+                "summary": str(summary or "Нет описания"),
+                "price": int(flat.get("price") or 0),
+                "price_per_m2": int(flat.get("price_per_m2") or 0),
+                "total_meters": float(flat.get("total_meters") or 0),
+                "living_meters": float(flat.get("living_meters") or 0),
+                "kitchen_meters": float(flat.get("kitchen_meters") or 0),
+                "elevator": str(flat.get("elevator_info", "н/д")),
+                "balcony": str(flat.get("balcony_info", "н/д")),
+                "repair": str(flat.get("repair", "н/д")),
+                "furniture": str(flat.get("furniture", "н/д")),
+                "floor": int(flat.get("floor") or 0),
+                "floors_count": int(flat.get("floors_count") or 0),
+                "material": str(ru_material or "неизвестно"),
+                "build_year": str(flat.get("build_year") or "н/д"),
+                "metro": str(flat.get("metro") or "н/д"),
+                "metro_walk_min": flat.get("metro_walk_min"),
+                "address": str(flat.get("address") or "Адрес не указан"),
+                "district": str(flat.get("district") or "н/д"),
+                "url": str(flat.get("url") or url)
+            }
+        }, ensure_ascii=False)
+
+    except Exception as e:
+        logger.error(f"Direct URL load error: {e}")
         return json.dumps({"status": "error", "message": str(e)}, ensure_ascii=False)
 
 @mcp.tool
