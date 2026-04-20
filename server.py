@@ -63,12 +63,61 @@ class SearchCache:
 
 cache = SearchCache()
 
+
+DEFAULT_ALLOWED_CLIENT_REDIRECT_URIS = [
+    "https://claude.ai/api/mcp/auth_callback",
+    "https://claude.com/api/mcp/auth_callback",
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*",
+    "http://localhost:*",
+    "http://127.0.0.1:*",
+    "cursor://anysphere.cursor-mcp/oauth/callback",
+]
+
+
+def load_env_file(file_path: str = ".env") -> None:
+    if not os.path.exists(file_path):
+        return
+
+    with open(file_path, "r", encoding="utf-8") as env_file:
+        for line in env_file:
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+
+            key, value = line.split("=", 1)
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            os.environ.setdefault(key, value)
+
+
+def parse_redirect_uri_list(raw_value: str | None) -> list[str] | None:
+    if raw_value is None or not raw_value.strip():
+        return DEFAULT_ALLOWED_CLIENT_REDIRECT_URIS
+
+    normalized = raw_value.strip()
+    if normalized.lower() in {"*", "all"}:
+        return None
+
+    normalized = normalized.replace("\n", ",").replace(";", ",")
+    redirect_uris = [
+        uri.strip()
+        for uri in normalized.split(",")
+        if uri.strip()
+    ]
+
+    return redirect_uris or DEFAULT_ALLOWED_CLIENT_REDIRECT_URIS
+
+
+load_env_file()
+
 auth0_domain = os.environ["AUTH0_DOMAIN"]
 auth0_client_id = os.environ["AUTH0_CLIENT_ID"]
 auth0_client_secret = os.environ["AUTH0_CLIENT_SECRET"]
 auth0_audience = os.environ["AUTH0_AUDIENCE"]
 base_url = os.environ["BASE_URL"].rstrip("/")
 jwt_signing_key = os.environ["JWT_SIGNING_KEY"]
+allowed_client_redirect_uris = parse_redirect_uri_list(os.environ.get("ALLOWED_CLIENT_REDIRECT_URIS"))
 
 token_verifier = JWTVerifier(
     jwks_uri=f"https://{auth0_domain}/.well-known/jwks.json",
@@ -86,9 +135,7 @@ auth = OAuthProxy(
     jwt_signing_key=jwt_signing_key,
     extra_authorize_params={"audience": auth0_audience},
     extra_token_params={"audience": auth0_audience},
-    allowed_client_redirect_uris=[
-        "https://claude.ai/api/mcp/auth_callback",
-    ],
+    allowed_client_redirect_uris=allowed_client_redirect_uris,
 )
 
 mcp = FastMCP("CIAN Parser", auth=auth)
