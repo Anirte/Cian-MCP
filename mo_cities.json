@@ -1,0 +1,1832 @@
+{
+  "status": "ok",
+  "data": {
+    "items": [
+      {
+        "lat": 55.419441,
+        "displayName": "Бронницы",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.27673,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.37453,
+            "lng": 38.197773
+          },
+          "upperCorner": {
+            "lat": 55.464352,
+            "lng": 38.355688
+          }
+        },
+        "fullName": "Бронницы г.",
+        "hasDistricts": false,
+        "id": 4690,
+        "name": "Бронницы",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.628078,
+        "displayName": "Дзержинский",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.839806,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.58317,
+            "lng": 37.760431
+          },
+          "upperCorner": {
+            "lat": 55.672986,
+            "lng": 37.91918
+          }
+        },
+        "fullName": "Дзержинский г.",
+        "hasDistricts": false,
+        "id": 4734,
+        "name": "Дзержинский",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.92973,
+        "displayName": "Долгопрудный",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.524571,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.884823,
+            "lng": 37.444579
+          },
+          "upperCorner": {
+            "lat": 55.974637,
+            "lng": 37.604562
+          }
+        },
+        "fullName": "Долгопрудный г.",
+        "hasDistricts": true,
+        "id": 4738,
+        "name": "Долгопрудный",
+        "hasHighway": false
+      },
+      {
+        "lat": 56.755192,
+        "displayName": "Дубна",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.139721,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 56.710291,
+            "lng": 37.057983
+          },
+          "upperCorner": {
+            "lat": 56.800093,
+            "lng": 37.221459
+          }
+        },
+        "fullName": "Дубна г.",
+        "hasDistricts": false,
+        "id": 4741,
+        "name": "Дубна",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.59325,
+        "displayName": "Жуковский",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.11961,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.548341,
+            "lng": 38.040305
+          },
+          "upperCorner": {
+            "lat": 55.638159,
+            "lng": 38.198916
+          }
+        },
+        "fullName": "Жуковский г.",
+        "hasDistricts": true,
+        "id": 4750,
+        "name": "Жуковский",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.731331,
+        "displayName": "Звенигород",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 36.866138,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.686423,
+            "lng": 36.786554
+          },
+          "upperCorner": {
+            "lat": 55.776239,
+            "lng": 36.945723
+          }
+        },
+        "fullName": "Звенигород г.",
+        "hasDistricts": false,
+        "id": 4756,
+        "name": "Звенигород",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.094559,
+        "displayName": "Коломна",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.775768,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.049646,
+            "lng": 38.697452
+          },
+          "upperCorner": {
+            "lat": 55.139472,
+            "lng": 38.854083
+          }
+        },
+        "fullName": "Коломна г.",
+        "hasDistricts": true,
+        "id": 4809,
+        "name": "Коломна",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.94227871136694,
+        "displayName": "Королёв",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.84996032714844,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.897373,
+            "lng": 37.769944
+          },
+          "upperCorner": {
+            "lat": 55.987184,
+            "lng": 37.929974
+          }
+        },
+        "fullName": "Королев г.",
+        "hasDistricts": true,
+        "id": 4813,
+        "name": "Королев",
+        "hasHighway": false
+      },
+      {
+        "lat": 56.114521,
+        "displayName": "Красноармейск",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.137649,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 56.069616,
+            "lng": 38.057277
+          },
+          "upperCorner": {
+            "lat": 56.159426,
+            "lng": 38.218022
+          }
+        },
+        "fullName": "Красноармейск г.",
+        "hasDistricts": false,
+        "id": 4817,
+        "name": "Красноармейск",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.597713,
+        "displayName": "Краснознаменск",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.042688,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.552803,
+            "lng": 36.963373
+          },
+          "upperCorner": {
+            "lat": 55.642622,
+            "lng": 37.122003
+          }
+        },
+        "fullName": "Краснознаменск г.",
+        "hasDistricts": false,
+        "id": 4822,
+        "name": "Краснознаменск",
+        "hasHighway": false
+      },
+      {
+        "lat": 56.01384,
+        "displayName": "Лобня",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.47438,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.968933,
+            "lng": 37.394215
+          },
+          "upperCorner": {
+            "lat": 56.058746,
+            "lng": 37.554545
+          }
+        },
+        "fullName": "Лобня г.",
+        "hasDistricts": false,
+        "id": 4848,
+        "name": "Лобня",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.577759,
+        "displayName": "Лыткарино",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.90921,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.532851,
+            "lng": 37.829937
+          },
+          "upperCorner": {
+            "lat": 55.622667,
+            "lng": 37.988481
+          }
+        },
+        "fullName": "Лыткарино г.",
+        "hasDistricts": false,
+        "id": 4851,
+        "name": "Лыткарино",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.807091,
+        "displayName": "Орехово-Зуево",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.989472,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.762184,
+            "lng": 38.909733
+          },
+          "upperCorner": {
+            "lat": 55.851998,
+            "lng": 39.06921
+          }
+        },
+        "fullName": "Орехово-Зуево г.",
+        "hasDistricts": true,
+        "id": 4916,
+        "name": "Орехово-Зуево",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.432041,
+        "displayName": "Подольск",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.55183,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.38713,
+            "lng": 37.472847
+          },
+          "upperCorner": {
+            "lat": 55.476951,
+            "lng": 37.630812
+          }
+        },
+        "fullName": "Подольск г.",
+        "hasDistricts": true,
+        "id": 4935,
+        "name": "Подольск",
+        "hasHighway": false
+      },
+      {
+        "lat": 54.86594,
+        "displayName": "Протвино",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.216572,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 54.821025,
+            "lng": 37.138701
+          },
+          "upperCorner": {
+            "lat": 54.910855,
+            "lng": 37.294443
+          }
+        },
+        "fullName": "Протвино г.",
+        "hasDistricts": false,
+        "id": 4945,
+        "name": "Протвино",
+        "hasHighway": false
+      },
+      {
+        "lat": 54.832479,
+        "displayName": "Пущино",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.620977,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 54.787563,
+            "lng": 37.543169
+          },
+          "upperCorner": {
+            "lat": 54.877394,
+            "lng": 37.698785
+          }
+        },
+        "fullName": "Пущино г.",
+        "hasDistricts": true,
+        "id": 4949,
+        "name": "Пущино",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.765011,
+        "displayName": "Реутов",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.873638,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.720104,
+            "lng": 37.793985
+          },
+          "upperCorner": {
+            "lat": 55.809918,
+            "lng": 37.953289
+          }
+        },
+        "fullName": "Реутов г.",
+        "hasDistricts": true,
+        "id": 4958,
+        "name": "Реутов",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.664749,
+        "displayName": "Рошаль",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 39.856819,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.61984,
+            "lng": 39.777368
+          },
+          "upperCorner": {
+            "lat": 55.709658,
+            "lng": 39.93627
+          }
+        },
+        "fullName": "Рошаль г.",
+        "hasDistricts": false,
+        "id": 4960,
+        "name": "Рошаль",
+        "hasHighway": false
+      },
+      {
+        "lat": 54.920609,
+        "displayName": "Серпухов",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.416901,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 54.875694,
+            "lng": 37.338924
+          },
+          "upperCorner": {
+            "lat": 54.965523,
+            "lng": 37.494878
+          }
+        },
+        "fullName": "Серпухов г.",
+        "hasDistricts": false,
+        "id": 4983,
+        "name": "Серпухов",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.95694,
+        "displayName": "Фрязино",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.057911,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.912034,
+            "lng": 37.977866
+          },
+          "upperCorner": {
+            "lat": 56.001846,
+            "lng": 38.137958
+          }
+        },
+        "fullName": "Фрязино г.",
+        "hasDistricts": false,
+        "id": 5038,
+        "name": "Фрязино",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.88781,
+        "displayName": "Химки",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.44418,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.842902,
+            "lng": 37.364274
+          },
+          "upperCorner": {
+            "lat": 55.932717,
+            "lng": 37.524085
+          }
+        },
+        "fullName": "Химки г.",
+        "hasDistricts": true,
+        "id": 5044,
+        "name": "Химки",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.786968,
+        "displayName": "Электросталь",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.435619,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.74206,
+            "lng": 38.35592
+          },
+          "upperCorner": {
+            "lat": 55.831876,
+            "lng": 38.515318
+          }
+        },
+        "fullName": "Электросталь г.",
+        "hasDistricts": true,
+        "id": 5064,
+        "name": "Электросталь",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.82057315625548,
+        "displayName": "Балашиха",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.96669006347656,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.775667,
+            "lng": 37.886925
+          },
+          "upperCorner": {
+            "lat": 55.865478,
+            "lng": 38.046453
+          }
+        },
+        "fullName": "Балашиха г.",
+        "hasDistricts": true,
+        "id": 174292,
+        "name": "Балашиха",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.556728,
+        "displayName": "Видное",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.712471,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.511819,
+            "lng": 37.633239
+          },
+          "upperCorner": {
+            "lat": 55.601637,
+            "lng": 37.791702
+          }
+        },
+        "fullName": "Видное г.",
+        "hasDistricts": false,
+        "id": 174508,
+        "name": "Видное",
+        "hasHighway": false
+      },
+      {
+        "lat": 56.045669,
+        "displayName": "Волоколамск",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 35.943951,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 56.000763,
+            "lng": 35.86372
+          },
+          "upperCorner": {
+            "lat": 56.090575,
+            "lng": 36.024183
+          }
+        },
+        "fullName": "Волоколамск г.",
+        "hasDistricts": false,
+        "id": 174522,
+        "name": "Волоколамск",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.317539,
+        "displayName": "Воскресенск",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.685928,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.272627,
+            "lng": 38.607173
+          },
+          "upperCorner": {
+            "lat": 55.36245,
+            "lng": 38.764683
+          }
+        },
+        "fullName": "Воскресенск г.",
+        "hasDistricts": false,
+        "id": 174530,
+        "name": "Воскресенск",
+        "hasHighway": false
+      },
+      {
+        "lat": 56.325359,
+        "displayName": "Высоковск",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 36.55333,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 56.280454,
+            "lng": 36.472512
+          },
+          "upperCorner": {
+            "lat": 56.370263,
+            "lng": 36.634148
+          }
+        },
+        "fullName": "Высоковск г.",
+        "hasDistricts": false,
+        "id": 174541,
+        "name": "Высоковск",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.615082,
+        "displayName": "Голицыно",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 36.987141,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.570173,
+            "lng": 36.907792
+          },
+          "upperCorner": {
+            "lat": 55.659991,
+            "lng": 37.066491
+          }
+        },
+        "fullName": "Голицыно г.",
+        "hasDistricts": false,
+        "id": 174573,
+        "name": "Голицыно",
+        "hasHighway": false
+      },
+      {
+        "lat": 56.362499,
+        "displayName": "Дмитров",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.541111,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 56.317596,
+            "lng": 37.460216
+          },
+          "upperCorner": {
+            "lat": 56.407402,
+            "lng": 37.622005
+          }
+        },
+        "fullName": "Дмитров г.",
+        "hasDistricts": false,
+        "id": 174634,
+        "name": "Дмитров",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.436402,
+        "displayName": "Домодедово",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.766567,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.391492,
+            "lng": 37.687576
+          },
+          "upperCorner": {
+            "lat": 55.481312,
+            "lng": 37.845556
+          }
+        },
+        "fullName": "Домодедово г.",
+        "hasDistricts": true,
+        "id": 174640,
+        "name": "Домодедово",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.737171,
+        "displayName": "Дрезна",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.845989,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.731456,
+            "lng": 38.83345
+          },
+          "upperCorner": {
+            "lat": 55.750969,
+            "lng": 38.868255
+          }
+        },
+        "fullName": "Дрезна г.",
+        "hasDistricts": false,
+        "id": 174644,
+        "name": "Дрезна",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.380039,
+        "displayName": "Егорьевск",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 39.03569,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.335129,
+            "lng": 38.956812
+          },
+          "upperCorner": {
+            "lat": 55.424949,
+            "lng": 39.114566
+          }
+        },
+        "fullName": "Егорьевск г.",
+        "hasDistricts": false,
+        "id": 174659,
+        "name": "Егорьевск",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.912041,
+        "displayName": "Истра",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 36.860451,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.867134,
+            "lng": 36.780498
+          },
+          "upperCorner": {
+            "lat": 55.956947,
+            "lng": 36.940405
+          }
+        },
+        "fullName": "Истра г.",
+        "hasDistricts": false,
+        "id": 174832,
+        "name": "Истра",
+        "hasHighway": false
+      },
+      {
+        "lat": 54.83939,
+        "displayName": "Кашира",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.161831,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 54.794475,
+            "lng": 38.084011
+          },
+          "upperCorner": {
+            "lat": 54.884304,
+            "lng": 38.239651
+          }
+        },
+        "fullName": "Кашира г.",
+        "hasDistricts": false,
+        "id": 174957,
+        "name": "Кашира",
+        "hasHighway": false
+      },
+      {
+        "lat": 56.331741,
+        "displayName": "Клин",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 36.721649,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 56.286837,
+            "lng": 36.64082
+          },
+          "upperCorner": {
+            "lat": 56.376644,
+            "lng": 36.802479
+          }
+        },
+        "fullName": "Клин г.",
+        "hasDistricts": false,
+        "id": 175004,
+        "name": "Клин",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.648744,
+        "displayName": "Котельники",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.870497,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.603836,
+            "lng": 37.79108
+          },
+          "upperCorner": {
+            "lat": 55.693651,
+            "lng": 37.949912
+          }
+        },
+        "fullName": "Котельники г.",
+        "hasDistricts": false,
+        "id": 175051,
+        "name": "Котельники",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.82074,
+        "displayName": "Красногорск",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.34597,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.775832,
+            "lng": 37.266202
+          },
+          "upperCorner": {
+            "lat": 55.865648,
+            "lng": 37.425738
+          }
+        },
+        "fullName": "Красногорск г.",
+        "hasDistricts": true,
+        "id": 175071,
+        "name": "Красногорск",
+        "hasHighway": false
+      },
+      {
+        "lat": 56.439121,
+        "displayName": "Краснозаводск",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.226372,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 56.394217,
+            "lng": 38.145313
+          },
+          "upperCorner": {
+            "lat": 56.484024,
+            "lng": 38.307431
+          }
+        },
+        "fullName": "Краснозаводск г.",
+        "hasDistricts": false,
+        "id": 175075,
+        "name": "Краснозаводск",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.56942,
+        "displayName": "Кубинка",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 36.69873,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.524512,
+            "lng": 36.619475
+          },
+          "upperCorner": {
+            "lat": 55.614328,
+            "lng": 36.777986
+          }
+        },
+        "fullName": "Кубинка г.",
+        "hasDistricts": false,
+        "id": 175104,
+        "name": "Кубинка",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.713474,
+        "displayName": "Ликино-Дулёво",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.955451,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.668566,
+            "lng": 38.875902
+          },
+          "upperCorner": {
+            "lat": 55.758382,
+            "lng": 39.034998
+          }
+        },
+        "fullName": "Ликино-Дулево г.",
+        "hasDistricts": false,
+        "id": 175209,
+        "name": "Ликино-Дулево",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.876171,
+        "displayName": "Лосино-Петровский",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.209148,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.831264,
+            "lng": 38.129268
+          },
+          "upperCorner": {
+            "lat": 55.921078,
+            "lng": 38.289029
+          }
+        },
+        "fullName": "Лосино-Петровский г.",
+        "hasDistricts": false,
+        "id": 175219,
+        "name": "Лосино-Петровский",
+        "hasHighway": false
+      },
+      {
+        "lat": 54.962051,
+        "displayName": "Луховицы",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 39.02673,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 54.917138,
+            "lng": 38.948674
+          },
+          "upperCorner": {
+            "lat": 55.006964,
+            "lng": 39.104785
+          }
+        },
+        "fullName": "Луховицы г.",
+        "hasDistricts": false,
+        "id": 175226,
+        "name": "Луховицы",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.683949,
+        "displayName": "Люберцы",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.881088,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.639042,
+            "lng": 37.8016
+          },
+          "upperCorner": {
+            "lat": 55.728856,
+            "lng": 37.960574
+          }
+        },
+        "fullName": "Люберцы г.",
+        "hasDistricts": true,
+        "id": 175231,
+        "name": "Люберцы",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.504791,
+        "displayName": "Можайск",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 36.033562,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.45988,
+            "lng": 35.954434
+          },
+          "upperCorner": {
+            "lat": 55.549701,
+            "lng": 36.112691
+          }
+        },
+        "fullName": "Можайск г.",
+        "hasDistricts": false,
+        "id": 175349,
+        "name": "Можайск",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.918911,
+        "displayName": "Мытищи",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.758419,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.874005,
+            "lng": 37.678451
+          },
+          "upperCorner": {
+            "lat": 55.963817,
+            "lng": 37.838386
+          }
+        },
+        "fullName": "Мытищи г.",
+        "hasDistricts": true,
+        "id": 175378,
+        "name": "Мытищи",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.671741,
+        "displayName": "Одинцово",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.28109,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.626832,
+            "lng": 37.201625
+          },
+          "upperCorner": {
+            "lat": 55.71665,
+            "lng": 37.360555
+          }
+        },
+        "fullName": "Одинцово г.",
+        "hasDistricts": true,
+        "id": 175578,
+        "name": "Одинцово",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.778969,
+        "displayName": "Павловский Посад",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.64389,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.734061,
+            "lng": 38.564207
+          },
+          "upperCorner": {
+            "lat": 55.823877,
+            "lng": 38.723573
+          }
+        },
+        "fullName": "Павловский Посад г.",
+        "hasDistricts": false,
+        "id": 175635,
+        "name": "Павловский Посад",
+        "hasHighway": false
+      },
+      {
+        "lat": 56.421096,
+        "displayName": "Пересвет",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.181126,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 56.376192,
+            "lng": 38.100105
+          },
+          "upperCorner": {
+            "lat": 56.465999,
+            "lng": 38.262146
+          }
+        },
+        "fullName": "Пересвет г.",
+        "hasDistricts": false,
+        "id": 175656,
+        "name": "Пересвет",
+        "hasHighway": false
+      },
+      {
+        "lat": 56.011589,
+        "displayName": "Пушкино",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.861759,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.966684,
+            "lng": 37.7816
+          },
+          "upperCorner": {
+            "lat": 56.056494,
+            "lng": 37.941916
+          }
+        },
+        "fullName": "Пушкино г.",
+        "hasDistricts": true,
+        "id": 175744,
+        "name": "Пушкино",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.565449,
+        "displayName": "Раменское",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.236851,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.520539,
+            "lng": 38.157601
+          },
+          "upperCorner": {
+            "lat": 55.610358,
+            "lng": 38.316101
+          }
+        },
+        "fullName": "Раменское г.",
+        "hasDistricts": true,
+        "id": 175758,
+        "name": "Раменское",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.697941,
+        "displayName": "Руза",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 36.203419,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.653032,
+            "lng": 36.123901
+          },
+          "upperCorner": {
+            "lat": 55.74285,
+            "lng": 36.282937
+          }
+        },
+        "fullName": "Руза г.",
+        "hasDistricts": false,
+        "id": 175785,
+        "name": "Руза",
+        "hasHighway": false
+      },
+      {
+        "lat": 56.310749,
+        "displayName": "Сергиев Посад",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.133041,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 56.265844,
+            "lng": 38.052254
+          },
+          "upperCorner": {
+            "lat": 56.355653,
+            "lng": 38.213828
+          }
+        },
+        "fullName": "Сергиев Посад г.",
+        "hasDistricts": true,
+        "id": 175864,
+        "name": "Сергиев Посад",
+        "hasHighway": false
+      },
+      {
+        "lat": 56.18457,
+        "displayName": "Солнечногорск",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 36.978432,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 56.139665,
+            "lng": 36.897913
+          },
+          "upperCorner": {
+            "lat": 56.229475,
+            "lng": 37.058951
+          }
+        },
+        "fullName": "Солнечногорск г.",
+        "hasDistricts": false,
+        "id": 175903,
+        "name": "Солнечногорск",
+        "hasHighway": false
+      },
+      {
+        "lat": 54.898361,
+        "displayName": "Ступино",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.08672,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 54.853447,
+            "lng": 38.008788
+          },
+          "upperCorner": {
+            "lat": 54.943275,
+            "lng": 38.164653
+          }
+        },
+        "fullName": "Ступино г.",
+        "hasDistricts": false,
+        "id": 175996,
+        "name": "Ступино",
+        "hasHighway": false
+      },
+      {
+        "lat": 56.73185,
+        "displayName": "Талдом",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.534111,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 56.686949,
+            "lng": 37.452424
+          },
+          "upperCorner": {
+            "lat": 56.77675,
+            "lng": 37.615797
+          }
+        },
+        "fullName": "Талдом г.",
+        "hasDistricts": false,
+        "id": 176052,
+        "name": "Талдом",
+        "hasHighway": false
+      },
+      {
+        "lat": 56.253891,
+        "displayName": "Хотьково",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.996811,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 56.208986,
+            "lng": 37.916144
+          },
+          "upperCorner": {
+            "lat": 56.298796,
+            "lng": 38.077478
+          }
+        },
+        "fullName": "Хотьково г.",
+        "hasDistricts": false,
+        "id": 176281,
+        "name": "Хотьково",
+        "hasHighway": false
+      },
+      {
+        "lat": 56.012989,
+        "displayName": "Черноголовка",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.388531,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.968082,
+            "lng": 38.308368
+          },
+          "upperCorner": {
+            "lat": 56.057895,
+            "lng": 38.468694
+          }
+        },
+        "fullName": "Черноголовка г.",
+        "hasDistricts": false,
+        "id": 176316,
+        "name": "Черноголовка",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.142399,
+        "displayName": "Чехов",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.460979,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.097486,
+            "lng": 37.38257
+          },
+          "upperCorner": {
+            "lat": 55.187312,
+            "lng": 37.539388
+          }
+        },
+        "fullName": "Чехов г.",
+        "hasDistricts": false,
+        "id": 176321,
+        "name": "Чехов",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.574421,
+        "displayName": "Шатура",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 39.54153,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.529511,
+            "lng": 39.462262
+          },
+          "upperCorner": {
+            "lat": 55.619331,
+            "lng": 39.620799
+          }
+        },
+        "fullName": "Шатура г.",
+        "hasDistricts": false,
+        "id": 176366,
+        "name": "Шатура",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.917469,
+        "displayName": "Щёлково",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.01144,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.872563,
+            "lng": 37.931476
+          },
+          "upperCorner": {
+            "lat": 55.962375,
+            "lng": 38.091405
+          }
+        },
+        "fullName": "Щелково г.",
+        "hasDistricts": true,
+        "id": 176401,
+        "name": "Щелково",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.883049,
+        "displayName": "Электрогорск",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.78043,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.838142,
+            "lng": 38.700535
+          },
+          "upperCorner": {
+            "lat": 55.927956,
+            "lng": 38.860325
+          }
+        },
+        "fullName": "Электрогорск г.",
+        "hasDistricts": false,
+        "id": 176405,
+        "name": "Электрогорск",
+        "hasHighway": false
+      },
+      {
+        "lat": 56.294109,
+        "displayName": "Яхрома",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.484669,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 56.249205,
+            "lng": 37.403918
+          },
+          "upperCorner": {
+            "lat": 56.339013,
+            "lng": 37.565419
+          }
+        },
+        "fullName": "Яхрома г.",
+        "hasDistricts": false,
+        "id": 176463,
+        "name": "Яхрома",
+        "hasHighway": false
+      },
+      {
+        "lat": 54.753352,
+        "displayName": "Зарайск",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.868521,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 54.708437,
+            "lng": 38.790865
+          },
+          "upperCorner": {
+            "lat": 54.798267,
+            "lng": 38.946176
+          }
+        },
+        "fullName": "Зарайск г.",
+        "hasDistricts": false,
+        "id": 270426,
+        "name": "Зарайск",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.34116,
+        "displayName": "Верея",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 36.196411,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.296248,
+            "lng": 36.117609
+          },
+          "upperCorner": {
+            "lat": 55.386071,
+            "lng": 36.275212
+          }
+        },
+        "fullName": "Верея г.",
+        "hasDistricts": false,
+        "id": 289808,
+        "name": "Верея",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.53949,
+        "displayName": "Апрелевка",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.082722,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.49458,
+            "lng": 37.003524
+          },
+          "upperCorner": {
+            "lat": 55.5844,
+            "lng": 37.16192
+          }
+        },
+        "fullName": "Апрелевка г.",
+        "hasDistricts": false,
+        "id": 297257,
+        "name": "Апрелевка",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.383228,
+        "displayName": "Наро-Фоминск",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 36.75568,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.338318,
+            "lng": 36.676797
+          },
+          "upperCorner": {
+            "lat": 55.428138,
+            "lng": 36.834564
+          }
+        },
+        "fullName": "Наро-Фоминск г.",
+        "hasDistricts": false,
+        "id": 297262,
+        "name": "Наро-Фоминск",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.579144,
+        "displayName": "Куровское (Московская)",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": false,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.920866,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.551339,
+            "lng": 38.86438
+          },
+          "upperCorner": {
+            "lat": 55.603786,
+            "lng": 38.964354
+          }
+        },
+        "fullName": "Куровское г.",
+        "hasDistricts": false,
+        "id": 305970,
+        "name": "Куровское",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.745842,
+        "displayName": "Старая Купавна",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.117969,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.784448,
+            "lng": 38.1386
+          },
+          "upperCorner": {
+            "lat": 55.821938,
+            "lng": 38.210782
+          }
+        },
+        "fullName": "Старая Купавна г.",
+        "hasDistricts": false,
+        "id": 317389,
+        "name": "Старая Купавна",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.72868,
+        "displayName": "Электроугли",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.197579,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.711939,
+            "lng": 38.127188
+          },
+          "upperCorner": {
+            "lat": 55.75901,
+            "lng": 38.237223
+          }
+        },
+        "fullName": "Электроугли г.",
+        "hasDistricts": false,
+        "id": 317396,
+        "name": "Электроугли",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.855888,
+        "displayName": "Ногинск",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.451519,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.81098,
+            "lng": 38.371679
+          },
+          "upperCorner": {
+            "lat": 55.900796,
+            "lng": 38.531359
+          }
+        },
+        "fullName": "Ногинск г.",
+        "hasDistricts": false,
+        "id": 317408,
+        "name": "Ногинск",
+        "hasHighway": false
+      },
+      {
+        "lat": 54.854431,
+        "displayName": "Озёры",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 38.524551,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 54.809516,
+            "lng": 38.446702
+          },
+          "upperCorner": {
+            "lat": 54.899346,
+            "lng": 38.6024
+          }
+        },
+        "fullName": "Озеры г.",
+        "hasDistricts": false,
+        "id": 405802,
+        "name": "Озеры",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.986912,
+        "displayName": "Ивантеевка",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.96954,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.942007,
+            "lng": 37.889434
+          },
+          "upperCorner": {
+            "lat": 56.031817,
+            "lng": 38.049648
+          }
+        },
+        "fullName": "Ивантеевка г.",
+        "hasDistricts": false,
+        "id": 412206,
+        "name": "Ивантеевка",
+        "hasHighway": false
+      },
+      {
+        "lat": 55.859984,
+        "displayName": "Дедовск",
+        "hasRegionalDistricts": false,
+        "parentId": 4593,
+        "hasNeighbors": null,
+        "mainTownId": null,
+        "hasMetro": false,
+        "lng": 37.120669,
+        "boundedBy": {
+          "lowerCorner": {
+            "lat": 55.815076,
+            "lng": 37.040821
+          },
+          "upperCorner": {
+            "lat": 55.904891,
+            "lng": 37.200518
+          }
+        },
+        "fullName": "Дедовск г.",
+        "hasDistricts": false,
+        "id": 1254488,
+        "name": "Дедовск",
+        "hasHighway": false
+      }
+    ]
+  }
+}

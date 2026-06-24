@@ -9,7 +9,13 @@ import datetime
 import re
 import cloudscraper
 # We still use our helper for district IDs
-from district_utils import get_okrug_id, get_district_id
+from district_utils import (
+    get_okrug_id, get_district_id,
+    get_mo_city_id, mo_city_has_districts,
+    get_mo_district_id, register_mo_city_districts,
+    REGION_MOSCOW, REGION_MO,
+    MO_GEO_TYPE_CITY, MO_GEO_TYPE_MICRODISTRICT,
+)
 
 import logging
 logger = logging.getLogger(__name__)
@@ -23,16 +29,103 @@ class CianHttpParser:
         })
         # The URL for Cian's internal API
         self.api_url = "https://api.cian.ru/search-offers/v2/search-offers-desktop/"
+        self.geo_tree_url = "https://www.cian.ru/api/geo/get-districts-tree/"
 
-    def _get_json_payload(self, page, rooms, min_price, max_price, min_floor, okrug, district):
+    def get_mo_city_districts(self, city_id: int):
+        """
+        Fetches and registers the microdistrict tree for a Moscow Oblast city.
+        Returns the raw list (also cached into district_utils for name->id lookups
+        via get_mo_district_id()).
+
+        Example: get_mo_city_districts(174292) fetches all microdistricts of Балашиха
+        (Кучино, Салтыковка, etc.) and registers them so get_mo_district_id(174292, "Кучино")
+        works afterwards.
+        """
+        try:
+            warmup_url = f"https://www.cian.ru/cat.php?deal_type=sale&offer_type=flat&region={REGION_MO}"
+            self.scraper.get(warmup_url, timeout=10)
+
+            headers = {
+                "Accept": "application/json",
+                "Referer": warmup_url,
+                "Host": "www.cian.ru",
+            }
+            response = self.scraper.get(
+                self.geo_tree_url,
+                params={"locationId": city_id},
+                headers=headers,
+                timeout=15,
+            )
+            if response.status_code != 200:
+                logging.info(f"   MO city districts fetch failed for city {city_id}: status {response.status_code}")
+                return []
+
+            tree = response.json()
+            register_mo_city_districts(city_id, tree)
+            return tree
+        except Exception as e:
+            logging.info(f"   Error fetching MO city districts for {city_id}: {e}")
+            return []
+
+    def _resolve_geo_value(self, okrug, district, mo_city, mo_district):
+        """
+        Builds the `geo.value` list for jsonQuery based on which location params were given.
+
+        Moscow:
+            - district (Raion/Poselenie name) -> {"type": "district", "id": ...}
+            - okrug (Administrative Okrug)     -> {"type": "district", "id": ...}
+        Moscow Oblast (confirmed empirically, see project notes):
+            - mo_city alone                    -> {"type": "location", "id": <city_id>}
+            - mo_district (microdistrict)       -> {"type": "district", "id": <microdistrict_id>}
+              (passing both city+district together does NOT work as an AND filter;
+               only the microdistrict id alone correctly narrows results)
+
+        Returns (geo_value_list, region_id) or (None, None) if nothing could be resolved.
+        """
+        # --- Moscow Oblast ---
+        if mo_city:
+            city_id = get_mo_city_id(mo_city)
+            if not city_id:
+                return None, None
+
+            if mo_district:
+                # Make sure we have the microdistrict tree for this city cached
+                district_id = get_mo_district_id(city_id, mo_district)
+                if district_id is None and mo_city_has_districts(city_id):
+                    self.get_mo_city_districts(city_id)
+                    district_id = get_mo_district_id(city_id, mo_district)
+
+                if district_id:
+                    return [{"type": MO_GEO_TYPE_MICRODISTRICT, "id": district_id}], REGION_MO
+                # Fall back to searching the whole city if the microdistrict wasn't found
+                logging.info(f"   MO microdistrict '{mo_district}' not found in city {mo_city}, falling back to city-wide search")
+
+            return [{"type": MO_GEO_TYPE_CITY, "id": city_id}], REGION_MO
+
+        # --- Moscow ---
+        location_id = None
+        if district:
+            location_id = get_district_id(district)
+        elif okrug:
+            location_id = get_okrug_id(okrug)
+
+        if location_id:
+            return [{"type": "district", "id": location_id}], REGION_MOSCOW
+
+        return None, None
+
+    def _get_json_payload(self, page, rooms, min_price, max_price, min_floor,
+                           okrug, district, mo_city=None, mo_district=None):
         """
         This function creates the special "request body" (payload) in the format
         that the Cian API understands.
         """
+        geo_value, region_id = self._resolve_geo_value(okrug, district, mo_city, mo_district)
+
         json_data = {
             "jsonQuery": {
                 "_type": "flatsale",
-                "region": {"type": "terms", "value": [1]}, # 1 is Moscow
+                "region": {"type": "terms", "value": [region_id or REGION_MOSCOW]},
                 "room": {"type": "terms", "value": [rooms]},
                 "price": {"type": "range", "value": {"gte": min_price, "lte": max_price}},
                 "floor": {"type": "range", "value": {"gte": min_floor}},
@@ -42,28 +135,25 @@ class CianHttpParser:
             }
         }
 
-        location_id = None
-        if district:
-            location_id = get_district_id(district)
-        elif okrug:
-            location_id = get_okrug_id(okrug)
-
-        # FIX: The correct syntax for Cian API to filter by district/okrug
-        if location_id:
+        if geo_value:
             json_data['jsonQuery']['geo'] = {
                 "type": "geo",
-                "value": [{"type": "district", "id": location_id}]
+                "value": geo_value
             }
-            logging.info(f"   Page {page}: Searching with location ID {location_id} via API")
+            logging.info(f"   Page {page}: Searching with geo {geo_value} (region {region_id}) via API")
 
         return json_data
 
-    def search_flats(self, rooms=1, max_price=12000000, min_price=5000000, min_floor=2, pages=10, okrug=None, district=None):
+    def search_flats(self, rooms=1, max_price=12000000, min_price=5000000, min_floor=2, pages=10,
+                      okrug=None, district=None, mo_city=None, mo_district=None):
         all_flats = []
 
         for page in range(1, pages + 1):
             # 1. Create the JSON payload for the current page
-            payload = self._get_json_payload(page, rooms, min_price, max_price, min_floor, okrug, district)
+            payload = self._get_json_payload(
+                page, rooms, min_price, max_price, min_floor,
+                okrug, district, mo_city, mo_district
+            )
 
             try:
                 # 2. Send a POST request to the API with our payload
@@ -196,9 +286,15 @@ class CianHttpParser:
 
         return None
 
-    def get_average_rent(self, rooms: int, district_id: int, total_area: float, walk_min=None) -> dict:
+    def get_average_rent(self, rooms: int, district_id: int, total_area: float, walk_min=None,
+                          region: int = 1, geo_type: str = "district") -> dict:
         """
         Ищет похожие квартиры в аренду в том же районе с учетом площади и удаленности от метро.
+
+        region: Cian region id (1 = Москва, 4593 = Московская область).
+        geo_type: тип geo-объекта в district_id — "district" для района/микрорайона,
+                  "location" для целого города (используется как фолбэк для городов МО
+                  без деления на микрорайоны).
         """
         try:
             # Считаем диапазон площади для точности (±30%)
@@ -206,21 +302,21 @@ class CianHttpParser:
             max_area = round(float(total_area) * 1.3)
 
             # ШАГ 1: "Прогрев" сессии для раздела АРЕНДЫ
-            warmup_url = f"https://www.cian.ru/cat.php?deal_type=rent&offer_type=flat&region=1&district%5B0%5D={district_id}"
+            warmup_url = f"https://www.cian.ru/cat.php?deal_type=rent&offer_type=flat&region={region}&district%5B0%5D={district_id}"
             self.scraper.get(warmup_url, timeout=10)
 
             # Базовые параметры запроса
             json_query = {
                 "_type": "flatrent",
                 "for_rent_main_type": {"type": "term", "value": "long"},
-                "region": {"type": "terms", "value": [1]},
+                "region": {"type": "terms", "value": [region]},
                 "room": {"type": "terms", "value": [rooms]},
                 "total_area": {"type": "range", "value": {"gte": min_area, "lte": max_area}},
                 "engine_version": {"type": "term", "value": 2},
                 "flat_share": {"type": "term", "value": False},
                 "geo": {
                     "type": "geo",
-                    "value": [{"type": "district", "id": district_id}]
+                    "value": [{"type": geo_type, "id": district_id}]
                 },
                 "page": {"type": "term", "value": 1},
                 "limit": {"type": "term", "value": 28}
@@ -353,15 +449,49 @@ class CianHttpParser:
             # --- Район и адрес ---
             geo_data = offer.get('geo', {})
             districts_list = geo_data.get('districts', [])
-            # Ищем Район/Поселение (нужно для API аренды)
-            target_dist = next((d for d in districts_list if d.get('type') in ['raion', 'poselenie']), {})
-            if not target_dist and districts_list: target_dist = districts_list[-1]
+            address_items = geo_data.get('address', [])
+
+            is_moscow = any(
+                item.get('type') == 'location' and (item.get('id') == 1 or item.get('name') == 'Москва')
+                for item in address_items
+            )
+            is_mo = any(item.get('type') == 'location' and item.get('id') == 4593 for item in address_items)
+
+            # Ищем район для последующего поиска аренды по нему.
+            # Москва: districts[] содержит type 'raion'/'poselenie'.
+            # Подмосковье: districts[] содержит type 'mikroraion' (только если у города
+            # есть деление на микрорайоны, иначе districts[] может быть пустым).
+            target_dist = next((d for d in districts_list if d.get('type') in ['raion', 'poselenie', 'mikroraion']), {})
+            if not target_dist and districts_list:
+                target_dist = districts_list[-1]
             if not target_dist:
-                address_districts = geo_data.get('address', [])
-                target_dist = next((d for d in address_districts if d.get('type') in ['raion', 'poselenie']), {})
+                target_dist = next((d for d in address_items if d.get('type') in ['raion', 'poselenie', 'mikroraion']), {})
 
             district_id = target_dist.get('id')
             district_name = target_dist.get('name', 'н/д')
+
+            # geo.type / region для последующего вызова get_average_rent():
+            # - Москва: всегда geo.type "district", region 1
+            # - МО + найден микрорайон: geo.type "district" (microdistrict id), region 4593
+            # - МО без микрорайона (hasDistricts=False у города): фолбэк на сам ГОРОД,
+            #   geo.type "location" (city id), region 4593
+            if is_mo:
+                rent_region = 4593
+                if district_id and target_dist.get('type') == 'mikroraion':
+                    rent_geo_type = "district"
+                else:
+                    # Фолбэк: ищем сам город (type='location', locationTypeId==1 у Cian
+                    # обычно соответствует городу) среди address_items
+                    city_item = next(
+                        (a for a in address_items if a.get('type') == 'location' and a.get('id') != 4593),
+                        {}
+                    )
+                    district_id = city_item.get('id') or district_id
+                    district_name = city_item.get('name') or district_name
+                    rent_geo_type = "location"
+            else:
+                rent_region = 1
+                rent_geo_type = "district"
 
             # Формируем текстовый адрес
             address_list = [
@@ -369,11 +499,6 @@ class CianHttpParser:
                 if a.get('type') in ['location', 'street', 'house']
             ]
             full_address = ", ".join(address_list)
-            address_items = geo_data.get('address', [])
-            is_moscow = any(
-                item.get('type') == 'location' and (item.get('id') == 1 or item.get('name') == 'Москва')
-                for item in address_items
-            )
 
             #  --- МКАД И шоссе ---
             highways = geo_data.get('highways', [])
@@ -393,6 +518,8 @@ class CianHttpParser:
                 "offer_id": str(offer.get('id') or offer.get('offerId') or offer.get('cianId')),
                 "district_id": district_id,
                 "district": district_name,
+                "rent_region": rent_region,
+                "rent_geo_type": rent_geo_type,
                 "rooms_count": rooms_count,
                 "is_share": is_legal_share,
                 "price": price,

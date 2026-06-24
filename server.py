@@ -26,7 +26,7 @@ from fastmcp.server.auth.providers.jwt import JWTVerifier
 from starlette.responses import JSONResponse, FileResponse, HTMLResponse
 
 from http_parser import CianHttpParser
-from district_utils import get_okrug_id, get_district_id
+from district_utils import get_okrug_id, get_district_id, get_mo_city_id, mo_city_has_districts
 
 # --- НАСТРОЙКА ЛОГИРОВАНИЯ ---
 handlers = [logging.FileHandler(log_path, encoding='utf-8')]
@@ -189,32 +189,40 @@ def search_flats(
     min_floor: Optional[int] = 2,
     okrug: Optional[str] = "",
     district: Optional[str] = "",
+    mo_city: Optional[str] = "",
+    mo_district: Optional[str] = "",
     include_outside_mkad: Optional[bool] = False,
     include_shares: Optional[bool] = False,
     exclude_apartments: Optional[bool] = True
 ) -> str:
     """
-    Search for apartments on CIAN.
+    Search for apartments on CIAN, in Moscow or Moscow Oblast (Подмосковье).
     Returns a paginated list of apartments.
     Use 'page' parameter to get more results (page=1, 2, 3...).
 
     Args:
-        okrug: Administrative district (e.g., 'юзао', 'зао', 'сао'). REQUIRED.
+        okrug: Moscow administrative district (e.g., 'юзао', 'зао', 'сао'). Use for searches WITHIN Moscow city.
+        district: Specific Moscow city district or settlement name. Use for searches WITHIN Moscow city.
+        mo_city: Moscow Oblast (Подмосковье) city name (e.g., 'Балашиха', 'Химки', 'Подольск'). REQUIRED for Oblast searches instead of okrug/district.
+        mo_district: Microdistrict name within the mo_city (e.g., 'Кучино'). Optional, only valid together with mo_city.
         rooms: Number of rooms. If not specified by user, defaults to 1.
         max_price: Maximum price in RUB. If user specifies a price, use it instead of default.
         min_price: Minimum price in RUB.
         min_floor: Minimum floor level.
-        district: Specific city district or settlement name.
-        include_outside_mkad: Set to True if you want to see properties outside MKAD.
+        include_outside_mkad: Set to True if you want to see properties outside MKAD. Not meaningful for mo_city searches.
         include_shares: Set to True if you want to see 'shares' (доли) of properties.
         exclude_apartments: If True (default), filters out 'апартаменты'. Set to False to include them.
-    ...
+
+    Exactly one of (okrug or district) for Moscow, OR mo_city for Moscow Oblast, must be specified.
     If the user provides specific price or room count, you MUST use those values.
     Always prioritize user input over default values.
     """
 
-    if not okrug and not district:
-        return json.dumps({"status": "error", "message": "Specify 'okrug' or 'district'."}, ensure_ascii=False)
+    if not okrug and not district and not mo_city:
+        return json.dumps({
+            "status": "error",
+            "message": "Specify 'okrug' or 'district' for Moscow, or 'mo_city' for Moscow Oblast."
+        }, ensure_ascii=False)
 
     if district and get_district_id(district) is None:
         return json.dumps({
@@ -228,10 +236,23 @@ def search_flats(
             "message": f"Okrug '{okrug}' not found. Please use standard abbreviations (e.g., ЦАО, ЮЗАО)."
         }, ensure_ascii=False)
 
+    if mo_city and get_mo_city_id(mo_city) is None:
+        return json.dumps({
+            "status": "error",
+            "message": f"Moscow Oblast city '{mo_city}' not found. Please check the spelling."
+        }, ensure_ascii=False)
+
+    if mo_district and not mo_city:
+        return json.dumps({
+            "status": "error",
+            "message": "'mo_district' requires 'mo_city' to be specified as well."
+        }, ensure_ascii=False)
+
     # 1. Формируем параметры для ключа кэша (БЕЗ page и page_size)
     cache_params = {
         "rooms": rooms, "max_price": max_price, "min_price": min_price,
         "min_floor": min_floor, "okrug": okrug, "district": district,
+        "mo_city": mo_city, "mo_district": mo_district,
         "include_outside_mkad": include_outside_mkad,
         "include_shares": include_shares, "exclude_apartments": exclude_apartments
     }
@@ -245,11 +266,14 @@ def search_flats(
             parser = get_parser()
             flats = parser.search_flats(
                 rooms=rooms, max_price=max_price, min_price=min_price,
-                min_floor=min_floor, pages=3, okrug=okrug, district=district
+                min_floor=min_floor, pages=3, okrug=okrug, district=district,
+                mo_city=mo_city, mo_district=mo_district
             )
 
             # Применяем фильтры ко всему списку
-            if not include_outside_mkad:
+            # MKAD-фильтр имеет смысл только для Москвы; для Подмосковья пропускаем его,
+            # т.к. mkad_distance_real там не отражает реальной полезной границы поиска.
+            if not include_outside_mkad and not mo_city:
                 flats = [
                     f for f in flats
                     if f.get("mkad_distance_real") is None
@@ -466,12 +490,17 @@ def analyze_investment(offer_id: str) -> str:
         d_name = target_flat.get('district', 'н/д')
         area = target_flat.get('total_meters') or 30.0
         walk_min = target_flat.get('metro_walk_min') # <--- ИЗВЛЕКАЕМ МИНУТЫ ПЕШКОМ
+        rent_region = target_flat.get('rent_region', 1)        # 1 = Москва, 4593 = МО
+        rent_geo_type = target_flat.get('rent_geo_type', 'district')
 
         if not d_id:
             return json.dumps({"status": "error", "message": "No district ID"}, ensure_ascii=False)
 
-        # 3. Запрос средней аренды (ТЕПЕРЬ 4 ПАРАМЕТРА)
-        rent_data = parser.get_average_rent(int(rooms), int(d_id), float(area), walk_min)
+        # 3. Запрос средней аренды
+        rent_data = parser.get_average_rent(
+            int(rooms), int(d_id), float(area), walk_min,
+            region=rent_region, geo_type=rent_geo_type
+        )
         avg_rent = rent_data['avg_price']
 
         if avg_rent == 0:
