@@ -458,30 +458,48 @@ class CianHttpParser:
             is_mo = any(item.get('type') == 'location' and item.get('id') == 4593 for item in address_items)
 
             # Ищем район для последующего поиска аренды по нему.
-            # Москва: districts[] содержит type 'raion'/'poselenie'.
+            # Москва (старая, внутри МКАД): districts[] содержит type 'raion'/'poselenie'.
             # Подмосковье: districts[] содержит type 'mikroraion' (только если у города
             # есть деление на микрорайоны, иначе districts[] может быть пустым).
+            # Новая Москва (НАО/ТАО) и прочие случаи без явного raion/poselenie/mikroraion:
+            # 'districts' может отсутствовать вовсе (другая сериализация на HTML-странице
+            # объявления), а в address[] нужный населённый пункт идёт как type='location'
+            # (например "Кокошкино"), а не raion/poselenie.
             target_dist = next((d for d in districts_list if d.get('type') in ['raion', 'poselenie', 'mikroraion']), {})
             if not target_dist and districts_list:
                 target_dist = districts_list[-1]
             if not target_dist:
                 target_dist = next((d for d in address_items if d.get('type') in ['raion', 'poselenie', 'mikroraion']), {})
 
+            used_location_fallback = False
+            if not target_dist:
+                # Фолбэк: самый детальный 'location' в адресе, который не сама Москва (id=1)
+                # и не сам регион МО (id=4593). Берём последний по порядку (адреса у Cian
+                # идут от общего к частному), это даёт наиболее точный населённый пункт/СНТ/ЖК.
+                location_candidates = [
+                    a for a in address_items
+                    if a.get('type') == 'location' and a.get('id') not in (1, 4593)
+                ]
+                if location_candidates:
+                    target_dist = location_candidates[-1]
+                    used_location_fallback = True
+
             district_id = target_dist.get('id')
             district_name = target_dist.get('name', 'н/д')
 
             # geo.type / region для последующего вызова get_average_rent():
-            # - Москва: всегда geo.type "district", region 1
+            # - Москва (raion/poselenie найден обычным способом): geo.type "district", region 1
+            # - Москва, но сработал location-фолбэк (Новая Москва, поселения и т.п.):
+            #   geo.type "location", region 1 -- т.к. сам geo-объект имеет type='location'
             # - МО + найден микрорайон: geo.type "district" (microdistrict id), region 4593
             # - МО без микрорайона (hasDistricts=False у города): фолбэк на сам ГОРОД,
-            #   geo.type "location" (city id), region 4593
+            #   geo.type "location", region 4593
             if is_mo:
                 rent_region = 4593
                 if district_id and target_dist.get('type') == 'mikroraion':
                     rent_geo_type = "district"
                 else:
-                    # Фолбэк: ищем сам город (type='location', locationTypeId==1 у Cian
-                    # обычно соответствует городу) среди address_items
+                    # Фолбэк: ищем сам город (type='location') среди address_items
                     city_item = next(
                         (a for a in address_items if a.get('type') == 'location' and a.get('id') != 4593),
                         {}
@@ -489,9 +507,13 @@ class CianHttpParser:
                     district_id = city_item.get('id') or district_id
                     district_name = city_item.get('name') or district_name
                     rent_geo_type = "location"
+            elif used_location_fallback:
+                rent_region = 1
+                rent_geo_type = "location"
             else:
                 rent_region = 1
                 rent_geo_type = "district"
+
 
             # Формируем текстовый адрес
             address_list = [
