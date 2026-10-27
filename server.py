@@ -193,14 +193,22 @@ def search_flats(
     mo_district: Optional[str] = "",
     include_outside_mkad: Optional[bool] = False,
     include_shares: Optional[bool] = False,
-    exclude_apartments: Optional[bool] = True
+    exclude_apartments: Optional[bool] = True,
+    region: Optional[str] = "",
+    city: Optional[str] = "",
+    city_district: Optional[str] = ""
 ) -> str:
     """
-    Search for apartments on CIAN, in Moscow or Moscow Oblast (Подмосковье).
+    Search for apartments on CIAN anywhere in Russia: Moscow, Moscow Oblast (Подмосковье)
+    or any other region/city.
     Returns a paginated list of apartments.
     Use 'page' parameter to get more results (page=1, 2, 3...).
 
     Args:
+        city: City name ANYWHERE in Russia except Moscow and Moscow Oblast (e.g., 'Казань', 'Сочи', 'Екатеринбург', 'Санкт-Петербург').
+        region: Region name (e.g., 'Татарстан', 'Краснодарский край'). Used together with 'city' to tell apart cities
+            with the same name; used ALONE it searches the whole region.
+        city_district: District or microdistrict inside 'city' (e.g., 'Вахитовский'). Optional, only valid together with 'city'.
         okrug: Moscow administrative district (e.g., 'юзао', 'зао', 'сао'). Use for searches WITHIN Moscow city.
         district: Specific Moscow city district or settlement name. Use for searches WITHIN Moscow city.
         mo_city: Moscow Oblast (Подмосковье) city name (e.g., 'Балашиха', 'Химки', 'Подольск'). REQUIRED for Oblast searches instead of okrug/district.
@@ -213,16 +221,38 @@ def search_flats(
         include_shares: Set to True if you want to see 'shares' (доли) of properties.
         exclude_apartments: If True (default), filters out 'апартаменты'. Set to False to include them.
 
-    Exactly one of (okrug or district) for Moscow, OR mo_city for Moscow Oblast, must be specified.
+    Exactly one location group must be specified: (okrug or district) for Moscow, OR mo_city for Moscow Oblast,
+    OR (city and/or region) for the rest of Russia.
     If the user provides specific price or room count, you MUST use those values.
     Always prioritize user input over default values.
     """
 
-    if not okrug and not district and not mo_city:
+    is_moscow_search = bool(okrug or district)
+    is_russia_search = bool(city or region)
+
+    if not is_moscow_search and not mo_city and not is_russia_search:
         return json.dumps({
             "status": "error",
-            "message": "Specify 'okrug' or 'district' for Moscow, or 'mo_city' for Moscow Oblast."
+            "message": "Specify 'okrug' or 'district' for Moscow, 'mo_city' for Moscow Oblast, "
+                       "or 'city' / 'region' for any other place in Russia."
         }, ensure_ascii=False)
+
+    if sum([is_moscow_search, bool(mo_city), is_russia_search]) > 1:
+        return json.dumps({
+            "status": "error",
+            "message": "Use only one location group: okrug/district (Moscow), mo_city (Moscow Oblast), or city/region (rest of Russia)."
+        }, ensure_ascii=False)
+
+    if city_district and not city:
+        return json.dumps({
+            "status": "error",
+            "message": "'city_district' requires 'city' to be specified as well."
+        }, ensure_ascii=False)
+
+    if is_russia_search:
+        _, _, place_error = get_parser().resolve_place(city, region, city_district)
+        if place_error:
+            return json.dumps({"status": "error", "message": place_error}, ensure_ascii=False)
 
     if district and get_district_id(district) is None:
         return json.dumps({
@@ -254,7 +284,8 @@ def search_flats(
         "min_floor": min_floor, "okrug": okrug, "district": district,
         "mo_city": mo_city, "mo_district": mo_district,
         "include_outside_mkad": include_outside_mkad,
-        "include_shares": include_shares, "exclude_apartments": exclude_apartments
+        "include_shares": include_shares, "exclude_apartments": exclude_apartments,
+        "region": region, "city": city, "city_district": city_district
     }
 
     cache_key = cache.get_key(cache_params)
@@ -267,13 +298,14 @@ def search_flats(
             flats = parser.search_flats(
                 rooms=rooms, max_price=max_price, min_price=min_price,
                 min_floor=min_floor, pages=3, okrug=okrug, district=district,
-                mo_city=mo_city, mo_district=mo_district
+                mo_city=mo_city, mo_district=mo_district,
+                city=city, region=region, city_district=city_district
             )
 
             # Применяем фильтры ко всему списку
-            # MKAD-фильтр имеет смысл только для Москвы; для Подмосковья пропускаем его,
-            # т.к. mkad_distance_real там не отражает реальной полезной границы поиска.
-            if not include_outside_mkad and not mo_city:
+            # MKAD-фильтр имеет смысл только для Москвы; для Подмосковья и других регионов
+            # пропускаем его, т.к. mkad_distance_real там не отражает реальной границы поиска.
+            if not include_outside_mkad and is_moscow_search:
                 flats = [
                     f for f in flats
                     if f.get("mkad_distance_real") is None

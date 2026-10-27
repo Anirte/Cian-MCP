@@ -1,6 +1,6 @@
 # CIAN MCP Server
 
-MCP server for searching and analyzing apartment listings on CIAN (Moscow) using the internal API.
+MCP server for searching and analyzing apartment listings on CIAN (all of Russia) using the internal API.
 
 This project provides a set of tools exposed via Model Context Protocol (MCP) that allow querying real estate listings, retrieving price history, and performing basic investment analysis.
 
@@ -116,7 +116,12 @@ Note: This endpoint is intended for MCP clients. It will not return meaningful d
 ## Available Tools
 
 ### search_flats
-Search for apartments with filtering options.
+Search for apartments with filtering options. Location is set by one of three groups:
+
+- Moscow: `okrug` or `district`
+- Moscow Oblast: `mo_city` (+ optional `mo_district`)
+- Anywhere else in Russia: `city` (+ optional `region` to tell apart same-name cities, + optional `city_district`),
+  or `region` alone for the whole region. Cities are found by name through the CIAN geo search, no local list needed.
 
 ### get_price_history
 Retrieve full price history for a listing.
