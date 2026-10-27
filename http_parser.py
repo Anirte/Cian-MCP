@@ -17,6 +17,11 @@ from district_utils import (
     MO_GEO_TYPE_CITY, MO_GEO_TYPE_MICRODISTRICT,
 )
 
+PROPERTY_FLAT = "flat"
+PROPERTY_HOUSE = "house"
+# Cian object_type for houses and cottages in the suburban (загородная) category
+HOUSE_OBJECT_TYPE = 1
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -29,6 +34,9 @@ class CianHttpParser:
         })
         # The URL for Cian's internal API
         self.api_url = "https://api.cian.ru/search-offers/v2/search-offers-desktop/"
+        # Mobile search returns the card-level fields of houses (gas, water, sewerage, electricity,
+        # bathhouse, garage, repair...) that the desktop search does not have.
+        self.api_url_house = "https://api.cian.ru/search-offers/v1/search-offers-mobile-site/"
         self.geo_tree_url = "https://www.cian.ru/api/geo/get-districts-tree/"
         # Search of regions/cities by name (works for the whole of Russia)
         self.geo_search_url = "https://www.cian.ru/cian-api/site/v1/search-regions-cities/"
@@ -227,10 +235,15 @@ class CianHttpParser:
 
     def _get_json_payload(self, page, rooms, min_price, max_price, min_floor,
                            okrug, district, mo_city=None, mo_district=None,
-                           city=None, region=None, city_district=None):
+                           city=None, region=None, city_district=None,
+                           property_type=PROPERTY_FLAT, house_filters=None):
         """
         This function creates the special "request body" (payload) in the format
         that the Cian API understands.
+
+        For houses (property_type="house") the query type is `suburbansale` with
+        object_type 1 (houses and cottages); rooms and floor filters do not apply,
+        `house_filters` carries the area filters instead (see _house_filters()).
         """
         geo_value, region_id = self._resolve_geo_value(
             okrug, district, mo_city, mo_district, city, region, city_district
@@ -241,13 +254,24 @@ class CianHttpParser:
                 "_type": "flatsale",
                 "region": {"type": "terms", "value": [region_id or REGION_MOSCOW]},
                 "room": {"type": "terms", "value": [rooms]},
-                "price": {"type": "range", "value": {"gte": min_price, "lte": max_price}},
                 "floor": {"type": "range", "value": {"gte": min_floor}},
                 "engine_version": {"type": "term", "value": 2},
                 "page": {"type": "term", "value": page},
                 "limit": {"type": "term", "value": 28}
             }
         }
+        # Цена необязательна: для домов границы могут быть не заданы
+        price_filter = self._range_filter(min_price, max_price)
+        if price_filter:
+            json_data["jsonQuery"]["price"] = price_filter
+
+        if property_type == PROPERTY_HOUSE:
+            json_query = json_data["jsonQuery"]
+            json_query["_type"] = "suburbansale"
+            json_query["object_type"] = {"type": "terms", "value": [HOUSE_OBJECT_TYPE]}
+            del json_query["room"]
+            del json_query["floor"]
+            json_query.update(house_filters or {})
 
         if geo_value:
             json_data['jsonQuery']['geo'] = {
@@ -258,22 +282,96 @@ class CianHttpParser:
 
         return json_data
 
+    def _add_desktop_geo(self, offers, payload):
+        """
+        The mobile search has no districts in `geo` (and no fullUrl). The desktop search returns
+        the same offers for the same query, so take `geo` and `fullUrl` from it, matched by offer id.
+        If the desktop request fails the offers stay as they are (district = whole city).
+        """
+        try:
+            response = self.scraper.post(self.api_url, json=payload, timeout=20)
+            if response.status_code != 200:
+                logging.info(f"   Desktop geo request returned {response.status_code}, districts will be city-level")
+                return
+            twins = {
+                str(o.get('id')): o
+                for o in (response.json().get('data', {}).get('offersSerialized') or [])
+            }
+        except Exception as e:
+            logging.info(f"   Desktop geo request failed: {e}")
+            return
+
+        for offer in offers:
+            twin = twins.get(str(offer.get('id')))
+            if not twin:
+                continue
+            offer['geo'] = twin.get('geo') or offer.get('geo')
+            if not offer.get('fullUrl'):
+                offer['fullUrl'] = twin.get('fullUrl')
+
+    @staticmethod
+    def _range_filter(low=None, high=None):
+        """{"type": "range", ...} with only the bounds that were given, or None if none."""
+        bounds = {}
+        if low is not None:
+            bounds["gte"] = low
+        if high is not None:
+            bounds["lte"] = high
+        return {"type": "range", "value": bounds} if bounds else None
+
+    @classmethod
+    def _house_filters(cls, min_area=None, max_area=None, min_land_area=None, max_land_area=None,
+                       min_floors=None, gas=None, electricity=None, water=None):
+        """
+        Filters for houses: house area in m2 (`total_area`), land plot area in sotkas (`site`),
+        number of floors of the house (`floorn`) and communications (`gas`, `electricity`,
+        `has_water`; sent only when True). Only the bounds that were given are sent.
+        """
+        candidates = (
+            ("total_area", cls._range_filter(min_area, max_area)),
+            ("site", cls._range_filter(min_land_area, max_land_area)),
+            ("floorn", cls._range_filter(min_floors)),
+            ("gas", {"type": "term", "value": True} if gas else None),
+            ("electricity", {"type": "term", "value": True} if electricity else None),
+            ("has_water", {"type": "term", "value": True} if water else None),
+        )
+        return {name: value for name, value in candidates if value}
+
     def search_flats(self, rooms=1, max_price=12000000, min_price=5000000, min_floor=2, pages=10,
                       okrug=None, district=None, mo_city=None, mo_district=None,
-                      city=None, region=None, city_district=None):
+                      city=None, region=None, city_district=None,
+                      property_type=PROPERTY_FLAT, min_area=None, max_area=None,
+                      min_land_area=None, max_land_area=None, min_floors=None,
+                      gas=None, electricity=None, water=None):
+        """
+        Searches apartments (property_type="flat") or houses (property_type="house").
+        Despite the name it returns houses too, in the same dict format.
+        """
         all_flats = []
+        is_house = property_type == PROPERTY_HOUSE
+        house_filters = self._house_filters(
+            min_area, max_area, min_land_area, max_land_area, min_floors, gas, electricity, water
+        )
 
         for page in range(1, pages + 1):
             # 1. Create the JSON payload for the current page
             payload = self._get_json_payload(
                 page, rooms, min_price, max_price, min_floor,
                 okrug, district, mo_city, mo_district,
-                city, region, city_district
+                city, region, city_district,
+                property_type, house_filters
             )
 
             try:
                 # 2. Send a POST request to the API with our payload
-                response = self.scraper.post(self.api_url, json=payload, timeout=20)
+                used_mobile = is_house
+                response = self.scraper.post(self.api_url_house if is_house else self.api_url,
+                                             json=payload, timeout=20)
+                if is_house and response.status_code not in (200, 429):
+                    # Запасной вариант: обычный поиск (без коммуникаций, но с остальными данными)
+                    logging.info(f"   Page {page}: mobile search returned {response.status_code}, falling back to desktop")
+                    response = self.scraper.post(self.api_url, json=payload, timeout=20)
+                    used_mobile = False
 
                 if response.status_code == 429:
                     logging.info("   ⚠️  API rate limit hit (429). Stopping search.")
@@ -292,6 +390,9 @@ class CianHttpParser:
                     logging.info(f"   Page {page}: No offers found in API response. Stopping search.")
                     break
 
+                if used_mobile:
+                    self._add_desktop_geo(offers, payload)
+
                 # 4. Parse each offer from the JSON
                 for offer_data in offers:
                     flat = self._parse_offer_json(offer_data)
@@ -309,10 +410,12 @@ class CianHttpParser:
 
     def get_flat_by_url(self, url: str):
         """
-        Loads one apartment directly from a CIAN sale URL.
+        Loads one apartment or house directly from a CIAN sale URL
+        (/sale/flat/<id>/ or /sale/suburban/<id>/).
         """
-        offer_id = self._extract_offer_id_from_url(url)
-        page_url = f"https://www.cian.ru/sale/flat/{offer_id}/"
+        category, offer_id = self._extract_offer_id_from_url(url)
+        page_url = f"https://www.cian.ru/sale/{category}/{offer_id}/"
+        query_type = "suburbansale" if category == "suburban" else "flatsale"
 
         try:
             page_response = self.scraper.get(page_url, timeout=10)
@@ -343,7 +446,7 @@ class CianHttpParser:
         for filter_name, filter_value in id_filters:
             payload = {
                 "jsonQuery": {
-                    "_type": "flatsale",
+                    "_type": query_type,
                     "region": {"type": "terms", "value": [1]},
                     "engine_version": {"type": "term", "value": 2},
                     "limit": {"type": "term", "value": 1},
@@ -369,11 +472,15 @@ class CianHttpParser:
 
         return None
 
-    def _extract_offer_id_from_url(self, url: str) -> str:
-        match = re.search(r"cian\.ru/sale/flat/(\d+)", str(url))
+    def _extract_offer_id_from_url(self, url: str):
+        """Returns (category, offer_id): category is 'flat' or 'suburban' (houses)."""
+        match = re.search(r"cian\.ru/sale/(flat|suburban)/(\d+)", str(url))
         if not match:
-            raise ValueError("Please provide a direct CIAN apartment sale URL, for example https://www.cian.ru/sale/flat/318640805/.")
-        return match.group(1)
+            raise ValueError(
+                "Please provide a direct CIAN sale URL, for example "
+                "https://www.cian.ru/sale/flat/318640805/ or https://www.cian.ru/sale/suburban/325992012/."
+            )
+        return match.group(1), match.group(2)
 
     def _extract_offer_json_from_page(self, page_text: str, offer_id: str):
         decoder = json.JSONDecoder()
@@ -403,9 +510,11 @@ class CianHttpParser:
         return None
 
     def get_average_rent(self, rooms: int, district_id: int, total_area: float, walk_min=None,
-                          region: int = 1, geo_type: str = "district") -> dict:
+                          region: int = 1, geo_type: str = "district",
+                          property_type: str = PROPERTY_FLAT) -> dict:
         """
-        Ищет похожие квартиры в аренду в том же районе с учетом площади и удаленности от метро.
+        Ищет похожие квартиры (или дома, если property_type="house") в аренду в том же районе
+        с учетом площади и удаленности от метро.
 
         region: Cian region id (1 = Москва, 4593 = Московская область).
         geo_type: тип geo-объекта в district_id — "district" для района/микрорайона,
@@ -418,7 +527,9 @@ class CianHttpParser:
             max_area = round(float(total_area) * 1.3)
 
             # ШАГ 1: "Прогрев" сессии для раздела АРЕНДЫ
-            warmup_url = f"https://www.cian.ru/cat.php?deal_type=rent&offer_type=flat&region={region}&district%5B0%5D={district_id}"
+            is_house = property_type == PROPERTY_HOUSE
+            offer_type = "suburban" if is_house else "flat"
+            warmup_url = f"https://www.cian.ru/cat.php?deal_type=rent&offer_type={offer_type}&region={region}&district%5B0%5D={district_id}"
             self.scraper.get(warmup_url, timeout=10)
 
             # Базовые параметры запроса
@@ -438,8 +549,16 @@ class CianHttpParser:
                 "limit": {"type": "term", "value": 28}
             }
 
+            if is_house:
+                # Дома: другой тип запроса, долгосрочная аренда (for_day "!1" = не посуточная),
+                # без комнат, долей и фильтров по метро
+                json_query["_type"] = "suburbanrent"
+                json_query["for_day"] = {"type": "term", "value": "!1"}
+                json_query["object_type"] = {"type": "terms", "value": [HOUSE_OBJECT_TYPE]}
+                for flat_only_key in ("for_rent_main_type", "room", "flat_share"):
+                    json_query.pop(flat_only_key, None)
             # НОВОЕ: Умный фильтр по удаленности от метро
-            if walk_min is not None:
+            elif walk_min is not None:
                 # Если квартира в пешей доступности (например, 10 мин),
                 # ищем аналоги пешком с запасом +5 мин
                 search_walk_limit = max(walk_min + 7, 15)
@@ -515,7 +634,8 @@ class CianHttpParser:
                 "fine": "чистовая отделка",
                 "cosmetic": "косметический ремонт",
                 "euro": "евроремонт",
-                "design": "дизайнерский ремонт"
+                "design": "дизайнерский ремонт",
+                "no": "без ремонта"
             }
             decor_raw = offer.get('decoration') or offer.get('repairType') or 'н/д'
             repair_type = decor_map.get(decor_raw, decor_raw) # если кода нет в словаре, оставит как есть
@@ -554,13 +674,45 @@ class CianHttpParser:
             # Очистка ссылки
             full_url = offer.get('fullUrl', '')
             clean_url = full_url.split('?')[0] if '?' in full_url else full_url
+            if not clean_url:
+                # Мобильный поиск не отдаёт fullUrl: собираем ссылку из id и типа объявления
+                category_path = 'suburban' if offer.get('offerType') == 'suburban' else 'flat'
+                offer_id_for_url = offer.get('id') or offer.get('cianId')
+                if offer_id_for_url:
+                    clean_url = f"https://www.cian.ru/sale/{category_path}/{offer_id_for_url}/"
+
+            # Дом или квартира: у загородных объявлений offerType == 'suburban'
+            is_house = offer.get('offerType') == 'suburban'
 
             # ВАЖНО: Правильная обработка комнатности
             rooms_count = offer.get('roomsCount')
             if offer.get('flatType') == 'studio':
                 rooms_count = 9
             elif not rooms_count:
-                rooms_count = 1
+                rooms_count = None if is_house else 1
+
+            # --- Участок (только у домов): площадь в сотках ---
+            land = offer.get('land') or {}
+            land_area = float(land.get('area') or 0)
+            if land.get('areaUnitType') == 'hectare':
+                land_area *= 100
+            house_category = offer.get('category')  # houseSale / cottageSale / townhouseSale ...
+
+            # --- Коммуникации и участок (только у домов, отдаёт мобильный поиск) ---
+            # None = ЦИАН не указал (неизвестно), True/False = указано. Типы -- сырые коды ЦИАН.
+            utilities = {
+                "gas": (offer.get('gas') or {}).get('type'),
+                "has_gas": offer.get('hasGas'),
+                "has_electricity": offer.get('hasElectricity'),
+                "water": (offer.get('water') or {}).get('suburbanWaterType'),
+                "has_water": offer.get('hasWater'),
+                "drainage": (offer.get('drainage') or {}).get('type'),
+                "has_drainage": offer.get('hasDrainage'),
+                "has_bathhouse": offer.get('hasBathhouse'),
+                "has_garage": offer.get('hasGarage'),
+                "has_pool": offer.get('hasPool'),
+                "has_security": offer.get('hasSecurity'),
+            }
 
             # --- Район и адрес ---
             geo_data = offer.get('geo', {})
@@ -645,11 +797,14 @@ class CianHttpParser:
             full_address = ", ".join(address_list)
 
             #  --- МКАД И шоссе ---
+            # Москва: distanceFromMkad + шоссе. Подмосковье: только шоссе с расстоянием от МКАД.
+            # В остальных регионах МКАД не имеет смысла.
             highways = geo_data.get('highways', [])
             highway_info = "Не указано"
+            is_mo = is_regional and location_items[0].get('id') == REGION_MO
             mkad_distance = float(geo_data.get('distanceFromMkad') or 0) if is_moscow else None
             min_dist_to_mkad = mkad_distance
-            if is_moscow and highways:
+            if (is_moscow or is_mo) and highways:
                 best_highway = min(highways, key=lambda x: float(x.get('distance', 999)))
                 highway_info = f"{best_highway['name']} шоссе, {best_highway['distance']} км от МКАД"
                 min_dist_to_mkad = float(best_highway['distance'])
@@ -687,6 +842,14 @@ class CianHttpParser:
                 "mkad_distance_real": min_dist_to_mkad,
                 "address": full_address,
                 "is_apartment": offer.get('isApartments', False),
+                "property_type": PROPERTY_HOUSE if is_house else PROPERTY_FLAT,
+                "house_category": house_category if is_house else None,
+                "land_area": land_area if is_house else None,
+                "land_status": land.get('status') if is_house else None,
+                "bedrooms_count": offer.get('bedroomsCount') if is_house else None,
+                "heating": building_data.get('heatingType') if is_house else None,
+                "utilities": utilities if is_house else None,
+                "price_per_sotka": int(price / land_area) if is_house and land_area else None,
                 "url": clean_url
             }
         except Exception as e:
