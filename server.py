@@ -410,7 +410,8 @@ def search_flats(
         region: Region name (e.g., 'Татарстан', 'Краснодарский край'). Used together with 'city' to tell apart cities
             with the same name; used ALONE it searches the whole region.
         city_district: District or microdistrict inside 'city' (e.g., 'Вахитовский'). Optional, only valid together with 'city'.
-        okrug: Moscow administrative district (e.g., 'юзао', 'зао', 'сао'). Use for searches WITHIN Moscow city.
+            NOT for Moscow: for Moscow okrugs like ЗАО use 'okrug'.
+        okrug: Moscow administrative okrug (e.g., 'юзао', 'зао', 'сао'). Use for searches WITHIN Moscow city.
         district: Specific Moscow city district or settlement name. Use for searches WITHIN Moscow city.
         mo_city: Moscow Oblast (Подмосковье) city name (e.g., 'Балашиха', 'Химки', 'Подольск'). REQUIRED for Oblast searches instead of okrug/district.
         mo_district: Microdistrict name within the mo_city (e.g., 'Кучино'). Optional, only valid together with mo_city.
@@ -440,6 +441,14 @@ def search_flats(
             min_price = DEFAULT_FLAT_MIN_PRICE
         if max_price is None:
             max_price = DEFAULT_FLAT_MAX_PRICE
+
+    # Слабые модели часто кладут округ/район Москвы в city_district вместо okrug/district.
+    # Если 'city' не задан и других мест нет, то перенаправляем значение по смыслу.
+    if city_district and not (city or region or mo_city or okrug or district):
+        if get_okrug_id(city_district) is not None:
+            okrug, city_district = city_district, ""
+        elif get_district_id(city_district) is not None:
+            district, city_district = city_district, ""
 
     is_moscow_search = bool(okrug or district)
     is_russia_search = bool(city or region)
