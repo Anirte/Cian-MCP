@@ -842,7 +842,13 @@ class CianHttpParser:
                 "mkad_distance_real": min_dist_to_mkad,
                 "address": full_address,
                 "is_apartment": offer.get('isApartments', False),
-                "is_auction": bool(offer.get('isAuction', False)),
+                "is_auction": bool(
+                    offer.get('isAuction')
+                    or offer.get('auction')
+                    or offer.get('tradingLink')
+                    or 'electronTradeSite' in ((offer.get('user') or {}).get('agentLists') or [])
+                    or 'tradeRealty' in ((offer.get('user') or {}).get('agentLists') or [])
+                ),
                 "property_type": PROPERTY_HOUSE if is_house else PROPERTY_FLAT,
                 "house_category": house_category if is_house else None,
                 "land_area": land_area if is_house else None,
