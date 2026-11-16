@@ -1,12 +1,23 @@
 # Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
 # Virtual env
 .venv/
+env/
+venv/
+ENV/
+
+# UV and cache
+.uv/
+.cache/
+*.cache
 
 # Logs
 *.log
+logs/
 
 # Environment files
 .env
@@ -16,10 +27,22 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
+ehthumbs.db
+desktop.ini
 
-# Local temp files
+# Local temp files & dumps
 current_url.txt
+*.tmp
+*.bak
+*.swp
+temp/
+tmp/
 
-# IDE
+# IDE & AI agents
 .vscode/
 .idea/
+.agents/
+.gemini/
+.antigravity/
+.cursor/
+.claude/

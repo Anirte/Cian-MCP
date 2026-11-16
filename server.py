@@ -31,7 +31,7 @@ from district_utils import get_okrug_id, get_district_id, get_mo_city_id, mo_cit
 # --- НАСТРОЙКА ЛОГИРОВАНИЯ ---
 handlers = [logging.FileHandler(log_path, encoding='utf-8')]
 if not is_headless:
-    handlers.append(logging.StreamHandler(sys.stdout)) # Добавляем консоль только если есть консоль
+    handlers.append(logging.StreamHandler(sys.stderr)) # Используем stderr, чтобы не засорять stdout в режиме stdio
 
 logging.basicConfig(
     level=logging.INFO,
@@ -111,34 +111,38 @@ def parse_redirect_uri_list(raw_value: str | None) -> list[str] | None:
 
 load_env_file()
 
-auth0_domain = os.environ["AUTH0_DOMAIN"]
-auth0_client_id = os.environ["AUTH0_CLIENT_ID"]
-auth0_client_secret = os.environ["AUTH0_CLIENT_SECRET"]
-auth0_audience = os.environ["AUTH0_AUDIENCE"]
-base_url = os.environ["BASE_URL"].rstrip("/")
-jwt_signing_key = os.environ["JWT_SIGNING_KEY"]
-allowed_client_redirect_uris = parse_redirect_uri_list(os.environ.get("ALLOWED_CLIENT_REDIRECT_URIS"))
+auth0_domain = os.environ.get("AUTH0_DOMAIN")
 
-token_verifier = JWTVerifier(
-    jwks_uri=f"https://{auth0_domain}/.well-known/jwks.json",
-    issuer=f"https://{auth0_domain}/",
-    audience=auth0_audience,
-)
+if auth0_domain:
+    auth0_client_id = os.environ["AUTH0_CLIENT_ID"]
+    auth0_client_secret = os.environ["AUTH0_CLIENT_SECRET"]
+    auth0_audience = os.environ["AUTH0_AUDIENCE"]
+    base_url = os.environ["BASE_URL"].rstrip("/")
+    jwt_signing_key = os.environ["JWT_SIGNING_KEY"]
+    allowed_client_redirect_uris = parse_redirect_uri_list(os.environ.get("ALLOWED_CLIENT_REDIRECT_URIS"))
 
-auth = OAuthProxy(
-    upstream_authorization_endpoint=f"https://{auth0_domain}/authorize",
-    upstream_token_endpoint=f"https://{auth0_domain}/oauth/token",
-    upstream_client_id=auth0_client_id,
-    upstream_client_secret=auth0_client_secret,
-    token_verifier=token_verifier,
-    base_url=base_url,
-    jwt_signing_key=jwt_signing_key,
-    extra_authorize_params={"audience": auth0_audience},
-    extra_token_params={"audience": auth0_audience},
-    allowed_client_redirect_uris=allowed_client_redirect_uris,
-)
+    token_verifier = JWTVerifier(
+        jwks_uri=f"https://{auth0_domain}/.well-known/jwks.json",
+        issuer=f"https://{auth0_domain}/",
+        audience=auth0_audience,
+    )
 
-mcp = FastMCP("CIAN Parser", auth=auth)
+    auth = OAuthProxy(
+        upstream_authorization_endpoint=f"https://{auth0_domain}/authorize",
+        upstream_token_endpoint=f"https://{auth0_domain}/oauth/token",
+        upstream_client_id=auth0_client_id,
+        upstream_client_secret=auth0_client_secret,
+        token_verifier=token_verifier,
+        base_url=base_url,
+        jwt_signing_key=jwt_signing_key,
+        extra_authorize_params={"audience": auth0_audience},
+        extra_token_params={"audience": auth0_audience},
+        allowed_client_redirect_uris=allowed_client_redirect_uris,
+    )
+
+    mcp = FastMCP("CIAN Parser", auth=auth)
+else:
+    mcp = FastMCP("CIAN Parser")
 
 _parser = None
 
@@ -314,6 +318,7 @@ def _build_flat_result(flat: dict, fallback_url: str = "") -> dict:
         "metro_walk_min": flat.get("metro_walk_min"),
         "address": str(flat.get("address") or "Адрес не указан"),
         "district": str(flat.get("district") or "н/д"),
+        "is_auction": bool(flat.get("is_auction", False)),
         "url": str(flat.get("url") or fallback_url)
     }
 
@@ -341,6 +346,7 @@ def _build_house_result(flat: dict, fallback_url: str = "") -> dict:
         "mkad_distance_km": _mkad_km(flat),
         "address": str(flat.get("address") or "Адрес не указан"),
         "district": str(flat.get("district") or "н/д"),
+        "is_auction": bool(flat.get("is_auction", False)),
         "url": str(flat.get("url") or fallback_url)
     }
     # Ремонт и мебель у домов указывают редко: показываем только если есть
@@ -372,6 +378,7 @@ def search_flats(
     include_outside_mkad: Optional[bool] = False,
     include_shares: Optional[bool] = False,
     exclude_apartments: Optional[bool] = True,
+    exclude_auctions: Optional[bool] = True,
     region: Optional[str] = "",
     city: Optional[str] = "",
     city_district: Optional[str] = "",
@@ -422,6 +429,7 @@ def search_flats(
         include_outside_mkad: Set to True if you want to see properties outside MKAD. Not meaningful for mo_city searches.
         include_shares: Set to True if you want to see 'shares' (доли) of properties.
         exclude_apartments: If True (default), filters out 'апартаменты'. Set to False to include them.
+        exclude_auctions: If True (default), filters out auction listings (аукционы / торги). Set to False to include them.
 
     Exactly one location group must be specified: (okrug or district) for Moscow, OR mo_city for Moscow Oblast,
     OR (city and/or region) for the rest of Russia.
@@ -508,6 +516,7 @@ def search_flats(
         "mo_city": mo_city, "mo_district": mo_district,
         "include_outside_mkad": include_outside_mkad,
         "include_shares": include_shares, "exclude_apartments": exclude_apartments,
+        "exclude_auctions": exclude_auctions,
         "region": region, "city": city, "city_district": city_district,
         "property_type": property_type, "min_area": min_area, "max_area": max_area,
         "min_land_area": min_land_area, "max_land_area": max_land_area,
@@ -545,6 +554,8 @@ def search_flats(
                 flats = [f for f in flats if not f.get("is_share", False)]
             if exclude_apartments and not is_house:
                 flats = [f for f in flats if not f.get("is_apartment", False)]
+            if exclude_auctions:
+                flats = [f for f in flats if not f.get("is_auction", False)]
 
             # Сортируем весь список
             flats.sort(key=lambda x: (x.get("price_per_m2", 999999999), x.get("price", 999999999)))
@@ -727,15 +738,21 @@ def clear_cache() -> str:
 # =================================================================
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", "8080"))
+    transport = os.environ.get("MCP_TRANSPORT")
+    if not transport:
+        transport = "stdio" if "stdio" in sys.argv or not os.environ.get("PORT") else "http"
 
-    try:
-        logger.info(f"Starting MCP HTTP server on 0.0.0.0:{port}")
-        mcp.run(
-            transport="http",
-            host="0.0.0.0",
-            port=port,
-            path="/mcp"
-        )
-    except Exception as e:
-        logger.error(f"Startup error: {e}")
+    if transport == "stdio":
+        mcp.run(transport="stdio")
+    else:
+        port = int(os.environ.get("PORT", "8080"))
+        try:
+            logger.info(f"Starting MCP HTTP server on 0.0.0.0:{port}")
+            mcp.run(
+                transport="http",
+                host="0.0.0.0",
+                port=port,
+                path="/mcp"
+            )
+        except Exception as e:
+            logger.error(f"Startup error: {e}")
